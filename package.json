@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client:watch\"",
-    "server": "nodemon ./backend/bin/www",
-    "client:hot": "webpack-dev-server --open --mode development --hot",
+    "server": "ENV=local nodemon ./backend/bin/www",
     "client:watch": "webpack --watch --mode development",
     "client:dev": "webpack --mode development",
     "client:prod": "webpack --mode production"

@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: `.env.${process.env.ENV}` });
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
@@ -9,6 +9,8 @@ const middlewares = require('./middlewares');
 const app = express();
 const publicFolder = path.join(__dirname, 'public')
 const staticServe = express.static(publicFolder);
+
+console.log(process.env.MARKETPLACE_SECRET);
 
 // Middlewares
 app.use(cors());
