@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import Login from './pages/login';
+import Login from './pages/login2';
 import ErrorPage from "./components/ErrorPage";
 
 import { useExample } from './providers/example';
