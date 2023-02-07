@@ -17,14 +17,12 @@ const SubscriptionDocument = ({ fundId }) => {
   }, []);
 
   React.useEffect(() => {
-
     if (divRef?.current && token) {
       window.PassthroughSDK.init({
         elementId: "passthrough",
         token,
       });
     }
-
   }, [divRef, token]);
   return (
     <div>

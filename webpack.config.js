@@ -1,3 +1,4 @@
+require('dotenv').config({ path: `.env.${process.env.ENV}` });
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -56,7 +57,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './frontend/index.html'
+      template: './frontend/index.html',
+      sdkUrl: process.env.PASSTHROUGH_SDK_URL,
     })
   ]
 }

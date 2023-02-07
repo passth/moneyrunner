@@ -5,8 +5,8 @@
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client:watch\"",
     "server": "ENV=local nodemon ./backend/bin/www",
-    "client:watch": "webpack --watch --mode development",
-    "client:dev": "webpack --mode development",
+    "client:watch": "ENV=local webpack --watch --mode development",
+    "client:dev": "ENV=local webpack --mode development",
     "client:prod": "webpack --mode production"
   },
   "dependencies": {
