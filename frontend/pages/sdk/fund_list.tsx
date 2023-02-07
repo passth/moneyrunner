@@ -16,10 +16,8 @@ const useStyles = makeStyles((theme) => ({
 function SDKFundList() {
   const classes = useStyles();
 
-  const subscribe = (fund) => {
-    fundService.subscribe({ id: fund.id }).then(() => {
-      location.href = `/subscribe/${fund.id}/`;
-    });
+  const openSubscriptionDocument = (fund) => {
+    location.href = `/subscribe/${fund.id}/`;
   };
 
   return (
@@ -27,28 +25,11 @@ function SDKFundList() {
       <Typography variant="h6" className={classes.allOpportunities}>
         All oportunities
       </Typography>
-      <FundList action={({ fund }) => (
-        <>
-          {fund.subscriptionId ? (
-            <Button
-              color="primary"
-              variant="outlined"
-              href={`/subscribe/${fund.id}/`}
-            >
-              View
-            </Button>
-          ) : (
-            <Button
-              color="primary"
-              variant="outlined"
-              onClick={() => subscribe(fund)}
-            >
-              Subscribe
-            </Button>
-          )}
-        </>
-      )} />
-    </Page >
+      <FundList
+        onView={openSubscriptionDocument}
+        onSubscribe={openSubscriptionDocument}
+      />
+    </Page>
   );
 }
 

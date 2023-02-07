@@ -10,8 +10,6 @@ const app = express();
 const publicFolder = path.join(__dirname, 'public')
 const staticServe = express.static(publicFolder);
 
-console.log(process.env.MARKETPLACE_SECRET);
-
 // Middlewares
 app.use(cors());
 app.use(logger('dev'));

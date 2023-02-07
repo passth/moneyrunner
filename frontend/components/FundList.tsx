@@ -6,6 +6,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Button,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import fundService from '../services/funds';
@@ -23,14 +24,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function FundList({ action: Action }) {
+function FundList({ onView, onSubscribe }) {
   const [funds, setFunds] = React.useState([]);
   const classes = useStyles();
 
-  React.useEffect(() => {
+  const fetchFunds = () => {
     fundService.getFunds().then((data: any) => {
       setFunds(data);
     });
+  };
+
+  const subscribe = (fund) => {
+    fundService.subscribe({ id: fund.id }).then((data: any) => {
+      fetchFunds();
+      onSubscribe(data);
+    }).catch((e) => {
+      console.log({ resp: e });
+    });
+  };
+
+  React.useEffect(() => {
+    fetchFunds();
   }, []);
 
   return (
@@ -54,7 +68,25 @@ function FundList({ action: Action }) {
               </TableCell>
               <TableCell align="right">{row.size}</TableCell>
               <TableCell align="right">
-                <Action fund={row} />
+                <>
+                  {row.subscriptionId ? (
+                    <Button
+                      color="primary"
+                      variant="outlined"
+                      onClick={() => onView(row)}
+                    >
+                      View
+                    </Button>
+                  ) : (
+                    <Button
+                      color="primary"
+                      variant="outlined"
+                      onClick={() => subscribe(row)}
+                    >
+                      Subscribe
+                    </Button>
+                  )}
+                </>
               </TableCell>
             </TableRow>
           ))}
