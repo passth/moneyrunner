@@ -76,7 +76,7 @@ function FundSubscriptionPage() {
           </Stepper>
         ) : null}
 
-        <StepComponent />
+        <StepComponent fundId={fundId} />
 
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
           {step === 0 ? (

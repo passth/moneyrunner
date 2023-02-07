@@ -35,7 +35,7 @@ function FundList({ onView, onSubscribe }) {
   };
 
   const subscribe = (fund) => {
-    fundService.subscribe({ id: fund.id }).then((data: any) => {
+    fundService.subscribe({ fundId: fund.id }).then((data: any) => {
       fetchFunds();
       onSubscribe(data);
     }).catch((e) => {

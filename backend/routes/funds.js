@@ -26,7 +26,7 @@ router.post('/:fundId', async function (req, res) {
     return res.status(404);
   }
 
-  if (fund?.subscription) {
+  if (fund?.subscriptionId) {
     return res.status(200).json(fund);
   }
 
@@ -53,12 +53,22 @@ router.post('/:fundId', async function (req, res) {
   return res.status(201).json(updatedFund);
 });
 
-router.post('/:fundId/get-passthrough-session', function (_, res) {
-  // Create embedded session
-  // Return token
-  return res.json({
-    token: 'token',
+router.post('/:fundId/get-passthrough-session', async function (req, res) {
+  const fundId = parseInt(req.params.fundId);
+  const fund = await services.funds.getFundById(req.user.id, fundId);
+
+  if (!fund || !fund?.subscriptionPassthroughInvestorClosingId) {
+    return res.status(404);
+  }
+
+  const response = await services.passthrough.createEmbeddedSession({
+    fundId: fund.passthroughFundId,
+    closingId: fund.passthroughClosingId,
+    investorClosingId: fund.subscriptionPassthroughInvestorClosingId,
+    user: req.user,
   });
+
+  return res.status(201).json({ token: response.data.token });
 });
 
 module.exports = router;

@@ -33,7 +33,18 @@ function sendInvestorClosing({
   });
 };
 
+function createEmbeddedSession({
+  fundId,
+  closingId,
+  investorClosingId,
+  user,
+}) {
+  const url = `/funds/${fundId}/fund-closings/${closingId}/investor-closings/${investorClosingId}/create-session/`;
+  return instance.post(url, { user_email: user.email });
+}
+
 module.exports = {
   createInvestorClosing,
   sendInvestorClosing,
+  createEmbeddedSession,
 }
