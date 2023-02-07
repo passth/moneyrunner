@@ -7,7 +7,7 @@ import {
   Container,
 } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { makeStyles } from '@material-ui/core/styles';
 
 import {
@@ -19,11 +19,14 @@ import { login } from '../services/auth';
 const useStyles = makeStyles((theme) => ({
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.primary.main,
   },
   signButton: {
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(2),
+  },
+  logo: {
+    marginBottom: theme.spacing(3),
   }
 }));
 
@@ -57,10 +60,10 @@ const Login = () => {
         }}
       >
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <ShoppingCartIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          MarketDemo
         </Typography>
         {error && <Typography color="error" style={{ marginTop: '10px' }}>{error}</Typography>}
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
