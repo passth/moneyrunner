@@ -2,6 +2,7 @@
 !frontend
 !backend
 !.babelrc
+!.env
 !.env.prod
 !.env.local
 !.env.test
