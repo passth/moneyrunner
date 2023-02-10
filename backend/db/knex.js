@@ -12,7 +12,7 @@ const knex = isPgEnabled ? (
   require('knex')({
     client: 'pg',
     connection: {
-      host: pgHost,
+      socketPath: pgHost,
       user: pgUser,
       password: pgPass,
       database: pgName,
