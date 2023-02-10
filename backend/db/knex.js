@@ -4,6 +4,10 @@ const pgName = process.env.PG_NAME;
 const pgHost = process.env.PG_HOST;
 const isPgEnabled = Boolean(pgUser && pgPass && pgName && pgHost);
 
+if (isPgEnabled) {
+  console.log(`Using PostgreSQL: ${pgHost}`);
+}
+
 const knex = isPgEnabled ? (
   require('knex')({
     client: 'pg',
