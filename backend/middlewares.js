@@ -1,5 +1,6 @@
 const rateLimit = require("express-rate-limit");
 const services = require('./services');
+const db = require('./db');
 
 async function authenticate(req, res, next) {
   const authHeader = req.headers.authorization;
@@ -26,8 +27,27 @@ const authenticatedLimiter = rateLimit({
   message: "Too many requests, please try again later"
 });
 
+const startTransaction = async (req, _, next) => {
+  req.trx = await db.knex.transaction();
+  next();
+};
+
+const rollbackTransaction = (error, req, _, next) => {
+  console.log('rollback');
+  req.trx.rollback(error);
+  next(error);
+};
+
+const commitTransaction = (req, _, next) => {
+  req.trx.commit();
+  next();
+};
+
 module.exports = {
   authenticate,
   defaultLimiter,
   authenticatedLimiter,
+  startTransaction,
+  rollbackTransaction,
+  commitTransaction,
 };

@@ -1,10 +1,19 @@
 const initialFunds = require('./initial_data/funds.js');
 const initialUsers = require('./initial_data/users.js');
-const knex = require('knex')({
-  client: 'sqlite3',
-  connection: { filename: "./local.sqlite" },
-  useNullAsDefault: true,
-});
+const knex = process.env.PG_CONNECTION_STRING ? (
+  require('knex')({
+    client: 'pg',
+    connection: process.env.PG_CONNECTION_STRING,
+    searchPath: ['knex', 'public'],
+    useNullAsDefault: true,
+  })
+) : (
+  require('knex')({
+    client: 'sqlite3',
+    connection: { filename: "./local.sqlite" },
+    useNullAsDefault: true,
+  })
+);
 
 knex.schema.hasTable('users').then(async function (exists) {
   if (!exists) {

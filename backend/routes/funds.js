@@ -21,6 +21,7 @@ router.get('/:fundId', async function (req, res) {
 router.post('/:fundId', async function (req, res) {
   const fundId = parseInt(req.params.fundId);
   const fund = await services.funds.getFundById(req.user.id, fundId);
+  let investorClosing = null;
 
   if (!fund) {
     return res.status(404);
@@ -30,24 +31,39 @@ router.post('/:fundId', async function (req, res) {
     return res.status(200).json(fund);
   }
 
-  const data = await services.passthrough.createInvestorClosing({
-    fundId: fund.passthroughFundId,
-    closingId: fund.passthroughClosingId,
-    user: req.user,
-  });
+  try {
+    investorClosing = await services.passthrough.createInvestorClosing({
+      fundId: fund.passthroughFundId,
+      closingId: fund.passthroughClosingId,
+      user: req.user,
+    });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ message: 'Error creating investor closing' });
+  }
 
-  await services.passthrough.sendInvestorClosing({
-    fundId: fund.passthroughFundId,
-    closingId: fund.passthroughClosingId,
-    investorClosingId: data.id,
-  });
+  try {
+    await services.passthrough.sendInvestorClosing({
+      fundId: fund.passthroughFundId,
+      closingId: fund.passthroughClosingId,
+      investorClosingId: investorClosing.id,
+    });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ message: 'Error sending investor closing' });
+  }
 
-  await services.funds.createSubscription({
-    fundId: fund.id,
-    userId: req.user.id,
-    investorClosingId: data.id,
-    invitationUrl: data.collaborators[0].sign_in_url,
-  });
+  try {
+    await services.funds.createSubscription({
+      fundId: fund.id,
+      userId: req.user.id,
+      investorClosingId: investorClosing.id,
+      invitationUrl: investorClosing.collaborators[0].sign_in_url,
+    });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ message: 'Error creating subscription' });
+  }
 
   const updatedFund = await services.funds.getFundById(req.user.id, fundId);
   return res.status(201).json(updatedFund);
