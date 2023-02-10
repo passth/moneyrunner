@@ -1,6 +1,9 @@
 FROM node:17-alpine
 WORKDIR /app
 
+ARG PASSTHROUGH_SDK_URL
+ENV PASSTHROUGH_SDK_URL=$PASSTHROUGH_SDK_URL
+
 RUN npm install pm2 -g
 
 COPY package*.json ./
