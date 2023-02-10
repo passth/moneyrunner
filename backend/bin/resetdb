@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+const db = require('../db');
+
+const resetdb = async () => {
+    await db.dropTables();
+    await db.createTables();
+};
+
+resetdb().then(() => {
+    process.exit(0);
+}).catch((e) => {
+    console.error(e);
+    process.exit(1);
+});

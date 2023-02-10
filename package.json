@@ -7,7 +7,8 @@
     "server": "ENV=local nodemon ./backend/bin/www",
     "client:watch": "ENV=local webpack --watch --mode development",
     "client:dev": "ENV=local webpack --mode development",
-    "client:prod": "webpack --mode production"
+    "client:prod": "webpack --mode production",
+    "resetdb": "node ./backend/bin/resetdb"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.2",

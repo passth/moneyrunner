@@ -5,6 +5,7 @@ const logger = require('morgan');
 const cors = require("cors");
 const routes = require('./routes');
 const middlewares = require('./middlewares');
+const db = require('./db');
 
 const app = express();
 const publicFolder = path.join(__dirname, 'public')
@@ -39,5 +40,8 @@ app.use(
     res.sendFile(path.join(publicFolder, 'index.html'));
   }
 );
+
+// Create tables if they don't exist
+db.createTables();
 
 module.exports = app;
