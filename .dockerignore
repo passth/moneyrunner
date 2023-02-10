@@ -1,0 +1,13 @@
+*
+!frontend
+!backend
+!.babelrc
+!.env.prod
+!.env.local
+!.env.test
+!tsconfig.json
+!package.json
+!package-lock.json
+!webpack.config.js
+
+backend/public/*
