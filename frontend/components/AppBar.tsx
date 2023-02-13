@@ -8,6 +8,7 @@ import ViewCompactIcon from '@material-ui/icons/ViewCompact';
 import { logout } from '../services/auth';
 import { useCustomTheme, THEMES } from '../providers/theme';
 import { useExample, EXAMPLES } from '../providers/example';
+import Logo from './Logo';
 import Dropdown from './Dropdown';
 
 const useStyles = makeStyles((theme) => ({
@@ -32,11 +33,7 @@ const CustomAppBar = () => {
       elevation={0}
       className={classes.root}
     >
-      <div>
-        <Typography variant="h6" color="inherit" noWrap>
-          MarketDemo
-        </Typography>
-      </div>
+      <Logo small />
       <div>
         <Dropdown
           icon={<ViewCompactIcon />}

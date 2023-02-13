@@ -102,6 +102,9 @@ export const createTheme = ({
       lightGrey: GRAY[300],
       grey: GRAY[600],
     },
+    secondary: {
+      main: primaryColor[500],
+    },
     error: {
       text: RED[700],
       main: RED[500],
@@ -125,7 +128,7 @@ export const createTheme = ({
 });
 
 export const defaultTheme = createTheme({
-  primaryColor: BLUE,
+  primaryColor: GREEN,
   backgroundColor: WHITE,
   type: 'light',
 });

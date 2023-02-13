@@ -7,8 +7,8 @@ import {
   Container,
 } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { makeStyles } from '@material-ui/core/styles';
+import Logo from '../components/Logo';
 
 import {
   useNavigate
@@ -59,12 +59,7 @@ const Login = () => {
           alignItems: 'center',
         }}
       >
-        <Avatar className={classes.avatar}>
-          <ShoppingCartIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          MarketDemo
-        </Typography>
+        <Logo />
         {error && <Typography color="error" style={{ marginTop: '10px' }}>{error}</Typography>}
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
           <TextField
