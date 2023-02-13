@@ -83,25 +83,11 @@ export const LIME_GREEN = '#21BF60';
 export const WHITE = '#FFFFFF';
 export const BLACK = '#000000';
 
-const regularFontFamily = '"Centra No1", "Helvetica", "Arial", sans-serif';
-const headerFontFamily = '"pp_agrandirtextbold", "Helvetica", "Arial", sans-serif';
-
-const typography = {
-  fontFamily: regularFontFamily,
-  h1: { fontFamily: headerFontFamily },
-  h2: { fontFamily: headerFontFamily },
-  h3: { fontFamily: headerFontFamily },
-  h4: { fontFamily: headerFontFamily },
-  h5: { fontFamily: headerFontFamily },
-  h6: { fontFamily: headerFontFamily },
-};
-
 export const createTheme = ({
   primaryColor,
   backgroundColor,
   type,
 }) => ({
-  typography,
   palette: {
     type,
     background: {
