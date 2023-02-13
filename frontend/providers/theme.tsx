@@ -23,16 +23,22 @@ export const THEMES: Theme[] = [
   },
 ];
 
-export const getStoredTheme = () => JSON.parse(window.localStorage.getItem('theme'));
+const THEME_MAP = THEMES.reduce((acc, theme) => {
+  acc[theme.name] = theme;
+  return acc;
+}, {});
 
-export const setStoredTheme = (theme: Theme) => window.localStorage.setItem('theme', JSON.stringify(theme));
+export const getStoredThemeName = () => window.localStorage.getItem('theme');
+
+export const setStoredThemeName = (themeName: string) => window.localStorage.setItem('theme', themeName);
 
 export const CustomThemeProvider = ({ children }) => {
-  const [theme, setTheme] = React.useState(getStoredTheme() || THEMES[0]);
+  const themeName = getStoredThemeName();
+  const [theme, setTheme] = React.useState(THEME_MAP[themeName] || THEMES[0]);
 
   const updateTheme = (name: 'default' | 'dark') => {
     const theme = THEMES.find((t) => t.name === name);
-    setStoredTheme(theme);
+    setStoredThemeName(theme.name);
     setTheme(theme);
   };
 
