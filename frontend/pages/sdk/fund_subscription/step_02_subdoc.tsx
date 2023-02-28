@@ -25,12 +25,11 @@ const SubscriptionDocument = ({ fundId }) => {
     }
   }, [divRef, token]);
   return (
-    <div>
-      <div
-        ref={divRef}
-        id="passthrough"
-      />
-    </div>
+    <div
+      ref={divRef}
+      id="passthrough"
+      style={{ width: '100%', height: '100%' }}
+    />
   );
 }
 

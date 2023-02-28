@@ -2,6 +2,9 @@ import * as React from 'react';
 import { Typography, Link, Breadcrumbs, Stepper, Step, StepLabel, Paper, Box, Button } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
 import fundService from '../../../services/funds';
 import Page from '../../../components/Page';
@@ -28,6 +31,7 @@ function FundSubscriptionPage() {
   const classes = useStyles();
   const [step, setStep] = React.useState(0);
   const [fund, setFund] = React.useState(null);
+  const [verticalNavigation, setVerticalNavigation] = React.useState(true);
   const StepComponent = STEPS[step];
 
   React.useEffect(() => {
@@ -45,7 +49,7 @@ function FundSubscriptionPage() {
   }
 
   return (
-    <Page>
+    <Page size="lg">
       <Breadcrumbs aria-label="breadcrumb">
         <Link
           underline="hover"
@@ -58,25 +62,51 @@ function FundSubscriptionPage() {
       </Breadcrumbs>
 
       <Paper variant="outlined" className={classes.paper}>
-        <Typography variant="h6">
-          {fund?.name}
-        </Typography>
 
-        {step !== 2 ? (
-          <Stepper activeStep={step}>
-            <Step>
-              <StepLabel>Overview</StepLabel>
-            </Step>
-            <Step>
-              <StepLabel>Subscription document</StepLabel>
-            </Step>
-            <Step>
-              <StepLabel>Next steps</StepLabel>
-            </Step>
-          </Stepper>
-        ) : null}
+        <Box
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-between"
+          mb={3}
+        >
+          <Typography variant="h6">
+            {fund?.name}
+          </Typography>
+          <FormGroup row>
+            <FormControlLabel
+              control={(
+                <Switch
+                  checked={verticalNavigation}
+                  onChange={() => setVerticalNavigation(!verticalNavigation)}
+                  name="checkedA"
+                />)}
+              label="Vertical navigation"
+            />
+          </FormGroup>
+        </Box>
 
-        <StepComponent fundId={fundId} />
+        <Box display="flex" flexDirection={verticalNavigation ? 'row' : 'column'}>
+          {step !== 2 ? (
+            <Box mb={2} minWidth={250}>
+              <Stepper
+                activeStep={step}
+                orientation={verticalNavigation ? "vertical" : 'horizontal'}
+              >
+                <Step>
+                  <StepLabel>Overview</StepLabel>
+                </Step>
+                <Step>
+                  <StepLabel>Subscription document</StepLabel>
+                </Step>
+                <Step>
+                  <StepLabel>Next steps</StepLabel>
+                </Step>
+              </Stepper>
+            </Box>
+          ) : null}
+
+          <StepComponent fundId={fundId} />
+        </Box>
 
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
           {step === 0 ? (

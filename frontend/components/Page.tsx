@@ -11,12 +11,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Page = ({ children }) => {
+const Page = ({ children, size = "md" }: { children: any; size?: "md" | "lg" }) => {
   const classes = useStyles();
   return (
     <>
       <AppBar />
-      <Container component="main" maxWidth="md" className={classes.container}>
+      <Container component="main" maxWidth={size} className={classes.container}>
         {children}
       </Container>
     </>
