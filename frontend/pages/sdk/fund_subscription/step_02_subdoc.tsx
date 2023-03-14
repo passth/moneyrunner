@@ -6,7 +6,7 @@ declare global {
   }
 }
 
-const SubscriptionDocument = ({ fundId }) => {
+const SubscriptionDocument = ({ fundId, next }) => {
   const divRef = React.useRef();
   const [token, setToken] = React.useState(null);
 
@@ -21,6 +21,11 @@ const SubscriptionDocument = ({ fundId }) => {
       window.PassthroughSDK.init({
         elementId: "passthrough",
         token,
+        onFinish: () => {
+          fundService.completeSubscription({ fundId }).then(() => {
+            next();
+          });
+        },
       });
     }
   }, [divRef, token]);

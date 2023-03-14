@@ -48,6 +48,12 @@ function FundSubscriptionPage() {
     );
   }
 
+  const next = () => {
+    if (STEPS[step + 1]) {
+      setStep(step + 1);
+    }
+  };
+
   return (
     <Page size="lg">
       <Breadcrumbs aria-label="breadcrumb">
@@ -105,7 +111,7 @@ function FundSubscriptionPage() {
             </Box>
           ) : null}
 
-          <StepComponent fundId={fundId} />
+          <StepComponent fundId={fundId} next={next} />
         </Box>
 
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -113,18 +119,9 @@ function FundSubscriptionPage() {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => setStep(step + 1)}
+              onClick={next}
             >
               Next
-            </Button>
-          ) : null}
-
-          {step === 2 ? (
-            <Button
-              variant="contained"
-              href="/"
-            >
-              See more funds
             </Button>
           ) : null}
         </Box>

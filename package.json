@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "concurrently \"npm run server\" \"npm run client:watch\"",
+    "start": "concurrently \"ENV=local nodemon ./backend/bin/www\" \"npm run client:watch\"",
     "server": "ENV=local nodemon ./backend/bin/www",
     "client:watch": "ENV=local webpack --watch --mode development",
     "client:dev": "ENV=local webpack --mode development",

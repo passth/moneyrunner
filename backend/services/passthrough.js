@@ -1,4 +1,5 @@
 const axios = require('axios');
+const crypto = require('crypto');
 
 const instance = axios.create({
   baseURL: process.env.PASSTHROUGH_BASE_URL,
@@ -14,7 +15,7 @@ async function createInvestorClosing({
   const url = `/funds/${fundId}/fund-closings/${closingId}/investor-closings/`;
   const response = await instance.post(url, {
     "investor_closings": [{
-      "investor_name": user.name,
+      "investor_name": `${user.name} - ${crypto.randomUUID()}`,
       "collaborators": [{ email: user.email }],
     }]
   });

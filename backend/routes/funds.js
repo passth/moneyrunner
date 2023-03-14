@@ -87,4 +87,20 @@ router.post('/:fundId/get-passthrough-session', async function (req, res) {
   return res.status(201).json({ token: response.data.token });
 });
 
+router.post('/:fundId/complete', async function (req, res) {
+  const fundId = parseInt(req.params.fundId);
+  const fund = await services.funds.getFundById(req.user.id, fundId);
+
+  if (!fund || !fund?.subscriptionId) {
+    return res.status(404);
+  }
+
+  await services.funds.updateSubscription({
+    id: fund.subscriptionId,
+    isActive: false
+  });
+
+  return res.status(200).json({ message: 'Subscription completed' });
+});
+
 module.exports = router;

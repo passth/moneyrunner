@@ -47,8 +47,13 @@ function createSubscription({ fundId, userId, investorClosingId, invitationUrl }
   });
 }
 
+function updateSubscription({ id, isActive }) {
+  return subscriptions().where({ id }).update({ isActive });
+}
+
 module.exports = {
   getFunds,
   getFundById,
   createSubscription,
+  updateSubscription,
 }

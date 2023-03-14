@@ -12,7 +12,11 @@ export const subscribe = ({ fundId }: { fundId: string }) => (
 );
 
 export const getPassthroughSession = ({ fundId }: { fundId: string }) => (
-  fetchAuth(`/api/funds/${fundId}/get-passthrough-session`, { method: 'POST' }).then(parseResponse)
+  fetchAuth(`/api/funds/${fundId}/get-passthrough-session/`, { method: 'POST' }).then(parseResponse)
+);
+
+export const completeSubscription = ({ fundId }: { fundId: string }) => (
+  fetchAuth(`/api/funds/${fundId}/complete/`, { method: 'POST' }).then(parseResponse)
 );
 
 export default {
@@ -20,4 +24,5 @@ export default {
   getFund,
   subscribe,
   getPassthroughSession,
+  completeSubscription,
 }
