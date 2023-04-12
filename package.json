@@ -7,7 +7,7 @@
   },
   "scripts": {
     "start": "concurrently \"ENV=local nodemon ./backend/bin/www.ts\" \"npm run client:watch\"",
-    "server": "ENV=local nodemon ./backend/bin/www",
+    "server": "pm2 start --no-daemon ts-node -- --type-check -r tsconfig-paths/register ./backend/bin/www.ts",
     "client:watch": "ENV=local webpack --watch --mode development",
     "client:dev": "ENV=local webpack --mode development",
     "client:prod": "webpack --mode production",
@@ -67,6 +67,7 @@
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
     "nodemon": "^2.0.20",
+    "pm2": "^5.3.0",
     "prettier": "^2.8.7",
     "style-loader": "^3.3.1",
     "ts-loader": "^9.4.2",
