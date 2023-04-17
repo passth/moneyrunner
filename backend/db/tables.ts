@@ -14,12 +14,6 @@ const createUsersTable = async () => {
       t.string("email", 100);
       t.string("password", 100);
     });
-
-    console.log(`Loading ${tableName}`);
-    for (let i = 0; i < initialData.users.length; i += 1) {
-      // eslint-disable-next-line
-      await knex(tableName).insert(initialData.users[i]);
-    }
   }
 };
 

@@ -1,18 +1,20 @@
-import { fetchAuth } from "./auth";
-import { parseResponse } from "./utils";
+import { parseResponse, getHeaders } from "./utils";
 
-export const getFunds = () => fetchAuth("/api/funds").then(parseResponse);
+export const getFunds = () => fetch("/api/funds").then(parseResponse);
 
 export const getFund = ({ fundId }: { fundId: string }) =>
-  fetchAuth(`/api/funds/${fundId}`).then(parseResponse);
+  fetch(`/api/funds/${fundId}`).then(parseResponse);
 
 export const subscribe = ({ fundId }: { fundId: string }) =>
-  fetchAuth(`/api/funds/${fundId}/`, { method: "POST" }).then(parseResponse);
+  fetch(`/api/funds/${fundId}/`, { method: "POST", headers: getHeaders() }).then(parseResponse);
 
 export const getPassthroughSession = ({ fundId }: { fundId: string }) =>
-  fetchAuth(`/api/funds/${fundId}/get-passthrough-session/`, { method: "POST" }).then(
-    parseResponse
-  );
+  fetch(`/api/funds/${fundId}/get-passthrough-session/`, {
+    method: "POST",
+    headers: getHeaders(),
+  }).then(parseResponse);
 
 export const completeSubscription = ({ fundId }: { fundId: string }) =>
-  fetchAuth(`/api/funds/${fundId}/complete/`, { method: "POST" }).then(parseResponse);
+  fetch(`/api/funds/${fundId}/complete/`, { method: "POST", headers: getHeaders() }).then(
+    parseResponse
+  );

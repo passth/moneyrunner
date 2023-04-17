@@ -6,10 +6,13 @@
     "noImplicitAny": false,
     "strict": false,
     "module": "commonjs",
-    "target": "es5",
+    "target": "es2016",
     "jsx": "react",
     "allowJs": true,
     "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "paths": {
       "components/*": [

@@ -88,24 +88,28 @@ export function SDKFundSubscription() {
       <Box display="flex" flexDirection={verticalNavigation ? "row" : "column"}>
         {step !== 2 ? (
           <Box mb={2} minWidth={250}>
-            <Stepper activeStep={step} orientation={verticalNavigation ? "vertical" : "horizontal"}>
-              <Step>
-                <StepLabel>Overview</StepLabel>
-              </Step>
-              <Step>
-                <StepLabel>Subscription document</StepLabel>
-              </Step>
-              <Step>
-                <StepLabel>Next steps</StepLabel>
-              </Step>
-            </Stepper>
+            <Paper variant="outlined">
+              <Stepper
+                activeStep={step}
+                orientation={verticalNavigation ? "vertical" : "horizontal"}
+              >
+                <Step>
+                  <StepLabel>Overview</StepLabel>
+                </Step>
+                <Step>
+                  <StepLabel>Subscription document</StepLabel>
+                </Step>
+                <Step>
+                  <StepLabel>Next steps</StepLabel>
+                </Step>
+              </Stepper>
+            </Paper>
           </Box>
         ) : null}
 
         <Paper
           variant="outlined"
           style={{
-            backgroundColor: "inherit",
             marginBottom: "20px",
             marginLeft: "20px",
             width: "100%",

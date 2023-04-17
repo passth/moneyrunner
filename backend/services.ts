@@ -1,31 +1,37 @@
-import * as jwt from "jsonwebtoken";
 import { funds, subscriptions, users, knex } from "./db";
 import * as types from "./types";
+import * as google from "./google";
 
 /**
  * Authentication methods
  * */
 
-export function getUserByEmail(email: string): Promise<types.UserType | null> {
+export function getUserByEmail(email: string) {
   return users().where({ email }).select().first();
 }
 
-export async function authenticateUser(email: string, password: string): Promise<string | null> {
-  // @ts-ignore
-  const user = await users().where({ email, password }).select().first();
-  if (!user) return null;
-  return jwt.sign({ sub: email }, process.env.MARKETPLACE_SECRET, { expiresIn: "1h" });
+export function getUserById(id: number) {
+  return users().where({ id }).select().first();
 }
 
-export function verifyToken(token: string): Promise<types.UserType | null> {
-  const data = jwt.verify(token, process.env.MARKETPLACE_SECRET);
+export function generateAuthUri() {
+  return google.generateAuthUri();
+}
 
-  if (!data) {
+export async function authenticate(code: string): Promise<types.UserType | null> {
+  const userData = await google.fetchUserData(code);
+
+  if (!userData) {
     return null;
   }
 
-  // @ts-ignore
-  return getUserByEmail(data.sub);
+  let user = await getUserByEmail(userData.email);
+
+  if (!user) {
+    user = await users().insert(userData);
+  }
+
+  return user;
 }
 
 /**

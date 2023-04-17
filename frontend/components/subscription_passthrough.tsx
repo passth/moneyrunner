@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as fundService from "services/funds";
-import { useCustomTheme } from "services/providers/theme";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { SessionExpiredDialog } from "./session_expired_dialog";
 
 const useStyles = makeStyles(() => ({
@@ -23,7 +22,7 @@ export const SubscriptionPassthrough = ({ fundId, next, exit }) => {
   const classes = useStyles();
   const [token, setToken] = React.useState(null);
   const [openExpiredDialog, setOpenExpiredDialog] = React.useState(false);
-  const { theme } = useCustomTheme();
+  const theme = useTheme();
   const fetchToken = () => {
     fundService.getPassthroughSession({ fundId }).then((data: any) => {
       setToken(data.token);
@@ -40,9 +39,9 @@ export const SubscriptionPassthrough = ({ fundId, next, exit }) => {
         elementId: "passthrough",
         token,
         theme: {
-          type: theme.theme.type,
-          primaryColor: theme.theme.primaryColor,
-          backgroundColor: theme.theme.backgroundColor,
+          type: theme.palette.type,
+          primaryColor: theme.palette.primary,
+          backgroundColor: theme.palette.background.paper,
         },
         onFinish: () => {
           fundService.completeSubscription({ fundId }).then(() => {
@@ -54,7 +53,7 @@ export const SubscriptionPassthrough = ({ fundId, next, exit }) => {
         },
       });
     }
-  }, [divRef, token, theme.theme.type]);
+  }, [divRef, token, theme.palette.type]);
   return (
     <>
       <SessionExpiredDialog

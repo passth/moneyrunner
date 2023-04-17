@@ -1,5 +1,3 @@
-import { Request, Response } from "express";
-
 export type FundType = {
   id: number;
   name: string;
@@ -28,11 +26,3 @@ export type UserType = {
   name: string;
   email: string;
 };
-
-export interface RequestType extends Request {
-  user: UserType;
-  clientIp: string;
-  trx?: any;
-}
-
-export type ResponseType = Response;

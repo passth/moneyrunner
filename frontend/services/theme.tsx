@@ -125,7 +125,7 @@ export const buildTheme = ({ primaryColor, backgroundColor, type }) => ({
 
 export const defaultTheme = {
   type: "light",
-  backgroundColor: WHITE,
+  backgroundColor: "#FAF9FA",
   primaryColor: {
     main: "#0089d6",
     dark: "#0078c2",
