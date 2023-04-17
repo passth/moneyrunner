@@ -67,15 +67,11 @@ export const rollbackTransaction: ErrorRequestHandler = (
   _: any,
   next: any
 ) => {
-  if (req.trx) {
-    req.trx.rollback(error);
-  }
+  req.trx.rollback(error);
   next(error);
 };
 
 export const commitTransaction = (req: any, _: any, next: any) => {
-  if (req.trx) {
-    req.trx.commit();
-  }
+  req.trx.commit();
   next();
 };
