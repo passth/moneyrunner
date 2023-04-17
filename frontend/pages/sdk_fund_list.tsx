@@ -29,7 +29,7 @@ export function SDKFundList() {
   };
 
   const fetchFunds = () => {
-    fundService.getFunds().then((data: any) => {
+    fundService.getFunds().then(({ data }: any) => {
       setFunds(data);
     });
   };

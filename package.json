@@ -6,11 +6,13 @@
     "printWidth": 100
   },
   "scripts": {
-    "start": "concurrently \"ENV=local nodemon ./backend/bin/www.ts\" \"npm run client:watch\"",
-    "server": "pm2 start --no-daemon ts-node -- --type-check -r tsconfig-paths/register ./backend/bin/www.ts",
-    "client:watch": "ENV=local NODE_ENV=development webpack --watch --mode development",
-    "client:dev": "ENV=local webpack --mode development",
-    "client:prod": "webpack --mode production",
+    "server": "pm2 start --no-daemon ./dist/backend/bin/www.js",
+    "build:client:watch": "ENV=local NODE_ENV=development webpack --watch --mode development",
+    "build:client": "NODE_OPTIONS=--max_old_space_size=2048 NODE_ENV=production webpack --mode production",
+    "build:server:watch": "tsc -p ./tsconfig.backend.json --watch",
+    "build:server": "NODE_OPTIONS=--max_old_space_size=2048 tsc -p ./tsconfig.backend.json",
+    "build:watch": "concurrently \"npm:build:client:watch\" \"npm:build:server:watch\"",
+    "build": "npm run build:client && npm run build:server",
     "resetdb": "ts-node ./backend/bin/resetdb.ts"
   },
   "dependencies": {

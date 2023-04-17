@@ -7,11 +7,11 @@ module.exports = {
   mode: "development",
   entry: "./frontend/index.tsx",
   output: {
-    path: path.join(__dirname, "./backend/public/"),
+    path: path.join(__dirname, "./dist/backend/public/"),
     filename: "bundle.js",
     publicPath: "/",
   },
-  devtool: "inline-source-map",
+  devtool: "source-map",
   devServer: {
     static: "./dist",
   },
@@ -25,7 +25,12 @@ module.exports = {
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
-        use: "ts-loader",
+        use: {
+          loader: "ts-loader",
+          options: {
+            configFile: "tsconfig.frontend.json",
+          },
+        },
       },
       {
         test: /\.css$/,

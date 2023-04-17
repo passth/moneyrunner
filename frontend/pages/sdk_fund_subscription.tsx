@@ -36,7 +36,7 @@ export function SDKFundSubscription() {
   const StepComponent = STEPS[step];
 
   React.useEffect(() => {
-    fundService.getFund({ fundId }).then((data: any) => {
+    fundService.getFund({ fundId }).then(({ data }: any) => {
       setFund(data);
       const isInProgress = ["unsent", "sent", "in_progress", "requested_changes"].includes(
         data.subscriptionStatus

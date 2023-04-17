@@ -34,11 +34,11 @@ export const Login = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     login()
-      .then(({ authUri }: { authUri: string }) => {
-        window.location.href = authUri;
+      .then((response: { data: any }) => {
+        window.location.href = response.data.authUri;
       })
-      .catch(({ data: d }) => {
-        setError(d?.error || "An error occurred");
+      .catch((e) => {
+        setError(e?.response?.error || "An error occurred");
       });
   };
 

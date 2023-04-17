@@ -15,8 +15,8 @@ export const sessionMiddleware = session({
   cookie: {
     maxAge: 60 * 60 * 1000,
     httpOnly: true,
-    secure: process.env.ENV !== "local",
-    sameSite: "strict",
+    secure: (process.env.ENV || "local") !== "local",
+    sameSite: "lax",
   },
   store: sessionStore,
   resave: true,
@@ -67,11 +67,15 @@ export const rollbackTransaction: ErrorRequestHandler = (
   _: any,
   next: any
 ) => {
-  req.trx.rollback(error);
+  if (req.trx) {
+    req.trx.rollback(error);
+  }
   next(error);
 };
 
 export const commitTransaction = (req: any, _: any, next: any) => {
-  req.trx.commit();
+  if (req.trx) {
+    req.trx.commit();
+  }
   next();
 };

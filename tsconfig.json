@@ -1,26 +1,31 @@
 {
   "compilerOptions": {
     "baseUrl": "./",
-    "outDir": "./dist/",
-    "sourceMap": true,
+    "rootDir": "./",
     "noImplicitAny": false,
     "strict": false,
     "module": "commonjs",
-    "target": "es2016",
-    "jsx": "react",
-    "allowJs": true,
-    "moduleResolution": "node",
+    "target": "es2018",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
-    "paths": {
-      "components/*": [
-        "./frontend/components/*"
-      ],
-      "services/*": [
-        "./frontend/services/*"
-      ],
+    "declaration": true,
+    "declarationDir": "./dist/types"
+  },
+  "include": [
+    "backend/**/*",
+    "frontend/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.backend.json"
+    },
+    {
+      "path": "./tsconfig.frontend.json"
     }
-  }
+  ]
 }
