@@ -28,7 +28,7 @@ export async function authenticate(code: string): Promise<types.UserType | null>
   let user = await getUserByEmail(userData.email);
 
   if (!user) {
-    user = await users().insert(userData);
+    [user] = await users().insert(userData).returning("*");
   }
 
   return user;

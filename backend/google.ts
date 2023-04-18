@@ -13,7 +13,11 @@ export const generateAuthUri = () =>
   client.generateAuthUrl({
     access_type: "online",
     prompt: "consent",
-    scope: ["https://www.googleapis.com/auth/userinfo.email", "openid"],
+    scope: [
+      "https://www.googleapis.com/auth/userinfo.email",
+      "https://www.googleapis.com/auth/userinfo.profile",
+      "openid",
+    ],
   });
 
 export const fetchUserData = async (code: string): Promise<UserType | null> => {

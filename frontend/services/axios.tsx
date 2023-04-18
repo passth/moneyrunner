@@ -6,7 +6,7 @@ const instance = axios.create({
   headers: getHeaders(),
 });
 
-axios.interceptors.response.use(
+instance.interceptors.response.use(
   (response) => response,
   (error) => {
     const response = error?.response;

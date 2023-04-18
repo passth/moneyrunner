@@ -1,3 +1,5 @@
+import knexSession from "connect-session-knex";
+import session from "express-session";
 import * as types from "../types";
 import knex from "./knex";
 import initialData from "./initial_data";
@@ -12,7 +14,6 @@ const createUsersTable = async () => {
       t.increments("id").primary();
       t.string("name", 100);
       t.string("email", 100);
-      t.string("password", 100);
     });
   }
 };
@@ -59,7 +60,31 @@ const createSubscriptionsTable = async () => {
   }
 };
 
+const createSessionTable = async () => {
+  const tableName = "sessions";
+  const exists = await knex.schema.hasTable(tableName);
+
+  if (!exists) {
+    console.log(`Creating ${tableName} table`);
+    await knex.schema.createTable(tableName, (t) => {
+      t.string("sid").primary();
+      t.json("sess");
+      t.timestamp("expired").defaultTo(knex.fn.now());
+    });
+  }
+};
+
+const createSessionStore = () => {
+  const KnexSessionFactory = knexSession(session);
+  return new KnexSessionFactory({
+    knex,
+    tablename: "sessions",
+    createtable: false,
+  });
+};
+
 export const createTables = async () => {
+  await createSessionTable();
   await createUsersTable();
   await createFundsTable();
   await createSubscriptionsTable();
@@ -74,6 +99,9 @@ export const dropTables = async () => {
 
   console.log("Droping funds");
   await knex.schema.dropTableIfExists("funds");
+
+  console.log("Droping sessions");
+  await knex.schema.dropTableIfExists("sessions");
 };
 
 export const users = () => knex<types.UserType>("users");
@@ -81,3 +109,5 @@ export const users = () => knex<types.UserType>("users");
 export const funds = () => knex("funds");
 
 export const subscriptions = () => knex<types.SubscriptionType>("subscriptions");
+
+export const sessionStore = createSessionStore();

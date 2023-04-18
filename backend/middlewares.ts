@@ -1,14 +1,10 @@
 import { ErrorRequestHandler } from "express";
 import rateLimit from "express-rate-limit";
-import knexSession from "connect-session-knex";
 import session from "express-session";
 import lusca from "lusca";
 
 import { getUserById } from "./services";
 import * as db from "./db";
-
-const KnexSessionFactory = knexSession(session);
-const sessionStore = new KnexSessionFactory({ knex: db.knex });
 
 export const sessionMiddleware = session({
   secret: process.env.MARKETPLACE_SECRET,
@@ -18,7 +14,7 @@ export const sessionMiddleware = session({
     secure: (process.env.ENV || "local") !== "local",
     sameSite: "lax",
   },
-  store: sessionStore,
+  store: db.sessionStore,
   resave: true,
   saveUninitialized: true,
 });
