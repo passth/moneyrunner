@@ -7,6 +7,8 @@
 !.env.local
 !.env.test
 !tsconfig.json
+!tsconfig.frontend.json
+!tsconfig.backend.json
 !package.json
 !package-lock.json
 !webpack.config.js
