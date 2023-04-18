@@ -1,18 +1,3 @@
-import { logout } from "./auth";
-
-export const parseResponse = (res) =>
-  new Promise((resolve, reject) => {
-    if (!res.ok && res.status === 401) {
-      logout();
-    }
-
-    if (!res.ok) {
-      return res.json().then((data) => reject({ status: res.status, data }));
-    }
-
-    return res.json().then((data) => resolve(data));
-  });
-
 export const getCookie = (name) => {
   if (!document.cookie) {
     return null;
@@ -32,5 +17,6 @@ export const getCookie = (name) => {
 export const getCsrfToken = () => getCookie("_csrf");
 
 export const getHeaders = () => ({
+  "Content-Type": "application/json",
   "X-CSRF-Token": getCsrfToken(),
 });

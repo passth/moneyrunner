@@ -24,7 +24,7 @@ export const SubscriptionPassthrough = ({ fundId, next, exit }) => {
   const [openExpiredDialog, setOpenExpiredDialog] = React.useState(false);
   const theme = useTheme();
   const fetchToken = () => {
-    fundService.getPassthroughSession({ fundId }).then((data: any) => {
+    fundService.getPassthroughSession({ fundId }).then(({ data }: any) => {
       setToken(data.token);
     });
   };

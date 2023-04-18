@@ -15,8 +15,8 @@ export const sessionMiddleware = session({
   cookie: {
     maxAge: 60 * 60 * 1000,
     httpOnly: true,
-    secure: process.env.ENV !== "local",
-    sameSite: "strict",
+    secure: (process.env.ENV || "local") !== "local",
+    sameSite: "lax",
   },
   store: sessionStore,
   resave: true,

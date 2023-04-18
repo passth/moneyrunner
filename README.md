@@ -11,8 +11,11 @@ Moneyrunner is a demo application to showcase Passthrough's API integration.
 # Install the dependencies
 > npm install
 
-# Start both server and frontend
-> npm start
+# Build frontend and backend files
+> npm build
+
+# Run server
+> npm run server
 ```
 
 ### Deploying

@@ -20,7 +20,7 @@ const staticServe = express.static(publicFolder);
 // Middlewares
 app.use(middlewares.sessionMiddleware);
 app.use(middlewares.securityMiddleware);
-app.use(cors());
+app.use(cors({ credentials: true, origin: true }));
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

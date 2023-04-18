@@ -24,7 +24,7 @@ export function APIFundList() {
   const onSubscribe = (fund) => {
     fundService
       .subscribe({ fundId: fund.id })
-      .then((data) => {
+      .then(({ data }) => {
         openSubscriptionDocument(data);
         fetchFunds();
       })
@@ -34,7 +34,7 @@ export function APIFundList() {
   };
 
   const fetchFunds = () => {
-    fundService.getFunds().then((data: any) => {
+    fundService.getFunds().then(({ data }: any) => {
       setFunds(data);
     });
   };

@@ -8,8 +8,8 @@ COPY package*.json ./
 RUN npm ci
 
 COPY . .
-RUN npm run client:prod
+RUN npm run build:client
+RUN npm run build:server
 
-EXPOSE 8080
 EXPOSE 9000
 CMD ["npm", "run", "server"]
