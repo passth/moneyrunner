@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as fundService from "services/funds";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { SessionExpiredDialog } from "./session_expired_dialog";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -17,21 +16,10 @@ declare global {
   }
 }
 
-export const SubscriptionPassthrough = ({ fundId, next, exit }) => {
+export const SubscriptionPassthrough = ({ fundId, next, onExpire, token }) => {
   const divRef = React.useRef(null);
   const classes = useStyles();
-  const [token, setToken] = React.useState(null);
-  const [openExpiredDialog, setOpenExpiredDialog] = React.useState(false);
   const theme = useTheme();
-  const fetchToken = () => {
-    fundService.getPassthroughSession({ fundId }).then(({ data }: any) => {
-      setToken(data.token);
-    });
-  };
-
-  React.useEffect(() => {
-    fetchToken();
-  }, []);
 
   React.useEffect(() => {
     if (divRef?.current && token) {
@@ -48,24 +36,10 @@ export const SubscriptionPassthrough = ({ fundId, next, exit }) => {
             next();
           });
         },
-        onExpire: () => {
-          setOpenExpiredDialog(true);
-        },
+        onExpire,
       });
     }
   }, [divRef, token, theme.palette.type]);
-  return (
-    <>
-      <SessionExpiredDialog
-        open={openExpiredDialog}
-        onClose={() => setOpenExpiredDialog(false)}
-        onCancel={() => exit()}
-        onContinue={() => {
-          fetchToken();
-          setOpenExpiredDialog(false);
-        }}
-      />
-      <div ref={divRef} id="passthrough" className={classes.root} />
-    </>
-  );
+
+  return <div ref={divRef} id="passthrough" className={classes.root} />;
 };
