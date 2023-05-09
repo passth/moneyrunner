@@ -19,6 +19,7 @@ export const GoogleButton = ({ onClick, disabled }) => {
       onClick={onClick}
       disabled={disabled}
       startIcon={<GoogleIcon className={classes.icon} />}
+      data-test="google-button"
     >
       Login with Google
     </Button>

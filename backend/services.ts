@@ -18,13 +18,7 @@ export function generateAuthUri() {
   return google.generateAuthUri();
 }
 
-export async function authenticate(code: string): Promise<types.UserType | null> {
-  const userData = await google.fetchUserData(code);
-
-  if (!userData) {
-    return null;
-  }
-
+export async function getOrCreateUser(userData: { name: string; email: string }) {
   let user = await getUserByEmail(userData.email);
 
   if (!user) {
@@ -32,6 +26,16 @@ export async function authenticate(code: string): Promise<types.UserType | null>
   }
 
   return user;
+}
+
+export async function authenticate(code: string): Promise<types.UserType | null> {
+  const userData = await google.fetchUserData(code);
+
+  if (!userData) {
+    return null;
+  }
+
+  return getOrCreateUser(userData);
 }
 
 /**

@@ -54,7 +54,7 @@ export function FundList({ funds, onView, onSubscribe }) {
                       color="primary"
                       variant="outlined"
                       onClick={() => onView(row)}
-                      id={`view-${idx}`}
+                      data-test={`view-${idx}`}
                     >
                       View
                     </Button>
@@ -64,7 +64,7 @@ export function FundList({ funds, onView, onSubscribe }) {
                     color="primary"
                     variant="outlined"
                     onClick={() => onSubscribe(row)}
-                    id={`subscribe-${idx}`}
+                    data-test={`subscribe-${idx}`}
                   >
                     Subscribe
                   </Button>

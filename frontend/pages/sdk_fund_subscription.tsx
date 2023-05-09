@@ -192,7 +192,7 @@ export function SDKFundSubscription() {
 
       <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
         {step === 0 ? (
-          <Button variant="contained" color="primary" onClick={next} id="next">
+          <Button variant="contained" color="primary" onClick={next} data-test="next">
             Next
           </Button>
         ) : null}

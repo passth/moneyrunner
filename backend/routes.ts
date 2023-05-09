@@ -11,6 +11,14 @@ const router = Router();
 
 /* Generate auth uri */
 router.post("/auth/login", async (req, res) => {
+  // If test mode is enabled, login with admin
+  if (process.env.TEST_MODE) {
+    const user = await services.getOrCreateUser({ email: "admin@example.com", name: "Tony Stark" });
+    // @ts-ignore
+    req.session.userId = user.id;
+    return res.status(200).json({ authUri: "/" });
+  }
+
   const authUri = await services.generateAuthUri();
   return res.status(200).json({ authUri });
 });
