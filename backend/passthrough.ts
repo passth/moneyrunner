@@ -8,6 +8,7 @@ const instance = axios.create({
 
 export type InvestorClosingType = {
   id: string;
+  // eslint-disable-next-line camelcase
   collaborators: { sign_in_url: string }[];
 };
 
@@ -23,8 +24,9 @@ export async function createInvestorClosing(
   const response = await instance.post(url, {
     investor_closings: [
       {
-        investor_name: `${user.name} - ${c.randomUUID()}`,
+        investor_name: user.name,
         collaborators: [{ email: user.email }],
+        client_reference_id: `${c.randomUUID()}`,
       },
     ],
   });
