@@ -20,3 +20,7 @@ Moneyrunner is a demo application to showcase Passthrough's API integration.
 
 ### Deploying
 Any commit merged to main will be automatically deployed.
+
+### License
+
+Moneyrunner is licensed under the license stated in the [LICENSE](LICENSE) file.
