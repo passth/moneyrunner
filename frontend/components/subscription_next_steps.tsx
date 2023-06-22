@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Typography, Button } from "@material-ui/core";
+import { Typography, Button, Box } from "@material-ui/core";
 import {
   Timeline,
   TimelineItem,
@@ -13,7 +13,7 @@ import BorderColorIcon from "@material-ui/icons/BorderColor";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 
 export const SubscriptionNextSteps = () => (
-  <div style={{ width: "100%" }}>
+  <Box width="100%" mt={4}>
     <div style={{ textAlign: "center" }}>
       <Typography variant="h5">All done!</Typography>
       <Typography noWrap={false}>
@@ -86,5 +86,5 @@ export const SubscriptionNextSteps = () => (
         </TimelineItem>
       </Timeline>
     </div>
-  </div>
+  </Box>
 );

@@ -1,3 +1,6 @@
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { useTheme } from "@material-ui/core/styles";
+
 export const getCookie = (name) => {
   if (!document.cookie) {
     return null;
@@ -20,3 +23,9 @@ export const getHeaders = () => ({
   "Content-Type": "application/json",
   "X-CSRF-Token": getCsrfToken(),
 });
+
+export const useScreenSize = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  return { isMobile };
+};

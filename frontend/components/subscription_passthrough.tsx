@@ -29,7 +29,7 @@ export const SubscriptionPassthrough = ({ fundId, next, onExpire, token }) => {
         theme: {
           type: theme.palette.type,
           primaryColor: theme.palette.primary,
-          backgroundColor: theme.palette.background.paper,
+          backgroundColor: theme.palette.background.default,
         },
         onFinish: () => {
           fundService.completeSubscription({ fundId }).then(() => {
