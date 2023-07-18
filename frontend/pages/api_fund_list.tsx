@@ -46,7 +46,7 @@ export function APIFundList() {
   return (
     <Page>
       <Typography variant="h6" className={classes.allOpportunities}>
-        All oportunities
+        All opportunities
       </Typography>
       <FundList funds={funds} onView={openSubscriptionDocument} onSubscribe={onSubscribe} />
     </Page>

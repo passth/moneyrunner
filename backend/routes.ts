@@ -173,7 +173,16 @@ router.post("/passthrough-callback", async (req: any, res: any) => {
   const { event_type: eventType, data } = req.body;
 
   if (eventType === "investor-closing-status-change") {
-    await services.updatePassthroughStatus(data.investor_closing.id, data.investor_closing.status);
+    await services.updatePassthroughSubscription(data.investor_closing.id, {
+      status: data.investor_closing.status,
+    });
+  } else if (eventType === "investor-closing-signable") {
+    const user = await services.getUserByEmail(data.investor_closing.next_signer.email);
+    const userId = user?.id;
+    await services.updatePassthroughSubscription(data.investor_closing.id, {
+      userId,
+      status: data.investor_closing.status,
+    });
   }
 
   return res.status(204).json({});

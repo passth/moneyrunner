@@ -15,8 +15,6 @@ import {
   ListItemText,
 } from "@material-ui/core";
 import { useParams, useNavigate } from "react-router-dom";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Switch from "@material-ui/core/Switch";
 
 import * as fundService from "services/funds";
 import { useScreenSize } from "services/utils";
@@ -55,7 +53,13 @@ export function SDKFundSubscription() {
 
   const navigate = useNavigate();
   const StepComponent = STEPS[step];
-  const inProgressStatuses = ["unsent", "sent", "in_progress", "requested_changes"];
+  const inProgressStatuses = [
+    "unsent",
+    "sent",
+    "in_progress",
+    "requested_changes",
+    "partially_signed",
+  ];
 
   React.useEffect(() => {
     fundService.getFunds().then(({ data }: any) => {

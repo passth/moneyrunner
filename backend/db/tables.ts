@@ -91,16 +91,16 @@ export const createTables = async () => {
 };
 
 export const dropTables = async () => {
-  console.log("Droping subscriptions");
+  console.log("Dropping subscriptions");
   await knex.schema.dropTableIfExists("subscriptions");
 
-  console.log("Droping users");
+  console.log("Dropping users");
   await knex.schema.dropTableIfExists("users");
 
-  console.log("Droping funds");
+  console.log("Dropping funds");
   await knex.schema.dropTableIfExists("funds");
 
-  console.log("Droping sessions");
+  console.log("Dropping sessions");
   await knex.schema.dropTableIfExists("sessions");
 };
 

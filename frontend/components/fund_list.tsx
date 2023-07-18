@@ -37,41 +37,44 @@ export function FundList({ funds, onView, onSubscribe }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {funds.map((row, idx) => (
-            <TableRow key={row.name} className={classes.row}>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.size}</TableCell>
-              <TableCell align="right">
-                {row.subscriptionId ? (
-                  <Badge
-                    variant="dot"
-                    color="error"
-                    invisible={row.subscriptionStatus !== "requested_changes"}
-                  >
+          {funds.map((row, idx) => {
+            const isAwaitingJointSignature = row.subscriptionStatus === "partially_signed";
+            return (
+              <TableRow key={row.name} className={classes.row}>
+                <TableCell component="th" scope="row">
+                  {row.name}
+                </TableCell>
+                <TableCell align="right">{row.size}</TableCell>
+                <TableCell align="right">
+                  {row.subscriptionId ? (
+                    <Badge
+                      variant="dot"
+                      color="error"
+                      invisible={row.subscriptionStatus !== "requested_changes"}
+                    >
+                      <Button
+                        color="primary"
+                        variant="outlined"
+                        onClick={() => onView(row)}
+                        data-test={`view-${idx}`}
+                      >
+                        {isAwaitingJointSignature ? "Sign" : "View"}
+                      </Button>
+                    </Badge>
+                  ) : (
                     <Button
                       color="primary"
                       variant="outlined"
-                      onClick={() => onView(row)}
-                      data-test={`view-${idx}`}
+                      onClick={() => onSubscribe(row)}
+                      data-test={`subscribe-${idx}`}
                     >
-                      View
+                      Subscribe
                     </Button>
-                  </Badge>
-                ) : (
-                  <Button
-                    color="primary"
-                    variant="outlined"
-                    onClick={() => onSubscribe(row)}
-                    data-test={`subscribe-${idx}`}
-                  >
-                    Subscribe
-                  </Button>
-                )}
-              </TableCell>
-            </TableRow>
-          ))}
+                  )}
+                </TableCell>
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </TableContainer>

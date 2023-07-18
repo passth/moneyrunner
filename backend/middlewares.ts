@@ -23,6 +23,7 @@ export const securityMiddleware = lusca({
   csrf: {
     cookie: { name: "_csrf" },
     secret: process.env.MARKETPLACE_SECRET,
+    blocklist: ["/api/passthrough-callback"], // Skip CSRF check for webhooks
   },
   xframe: "SAMEORIGIN",
   xssProtection: true,
