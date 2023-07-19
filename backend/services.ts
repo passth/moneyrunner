@@ -104,6 +104,6 @@ export function updateSubscription({ id, ...attrs }) {
   return subscriptions().where({ id }).update(attrs);
 }
 
-export function updatePassthroughStatus(passthroughInvestorClosingId, status) {
-  return subscriptions().where({ passthroughInvestorClosingId }).update({ status });
+export function updatePassthroughSubscription(passthroughInvestorClosingId, attrs) {
+  return subscriptions().where({ passthroughInvestorClosingId }).update(attrs);
 }
