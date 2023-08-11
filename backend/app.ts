@@ -27,9 +27,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(staticServe);
 app.use(requestIp.mw()); // Add user ip address
 app.use(middlewares.defaultLimiter);
-app.use(middlewares.startTransaction);
-app.use(middlewares.commitTransaction);
-app.use(middlewares.rollbackTransaction);
 
 // Routes
 app.use("/api", router);

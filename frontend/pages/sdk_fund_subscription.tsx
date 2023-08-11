@@ -34,9 +34,11 @@ const STEPS = {
 export function SDKFundSubscription() {
   const { fundId } = useParams();
   const [step, setStep] = React.useState(0);
+  const [stepData, setStepData] = React.useState({});
   const [fund, setFund] = React.useState(null);
   const [funds, setFunds] = React.useState([]);
   const [token, setToken] = React.useState(null);
+  const [error, setError] = React.useState(null);
   const [openExpiredDialog, setOpenExpiredDialog] = React.useState(false);
   const { isMobile } = useScreenSize();
 
@@ -82,8 +84,9 @@ export function SDKFundSubscription() {
     return <Page>Loading...</Page>;
   }
 
-  const next = () => {
+  const next = (data) => {
     const newStep = step + 1;
+    setStepData(data);
 
     if (newStep === 1) {
       fetchToken(fund.id);
@@ -179,7 +182,17 @@ export function SDKFundSubscription() {
           ) : null}
         </div>
 
-        <StepComponent fundId={fund.id} next={next} token={token} />
+        {error ? (
+          <div>Something went wrong.</div>
+        ) : (
+          <StepComponent
+            fundId={fund.id}
+            next={next}
+            token={token}
+            data={stepData}
+            setError={setError}
+          />
+        )}
       </Box>
 
       <Box sx={{ display: "flex", justifyContent: "flex-end" }}>

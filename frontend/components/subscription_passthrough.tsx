@@ -16,7 +16,7 @@ declare global {
   }
 }
 
-export const SubscriptionPassthrough = ({ fundId, next, onExpire, token }) => {
+export const SubscriptionPassthrough = ({ fundId, next, onExpire, token, setError }) => {
   const divRef = React.useRef(null);
   const classes = useStyles();
   const theme = useTheme();
@@ -32,10 +32,15 @@ export const SubscriptionPassthrough = ({ fundId, next, onExpire, token }) => {
           backgroundColor: theme.palette.background.default,
           fontFamily: theme.typography.fontFamily,
         },
-        onFinish: () => {
-          fundService.completeSubscription({ fundId }).then(() => {
-            next();
-          });
+        onFinish: ({ action }) => {
+          fundService
+            .completeSubscription({ fundId })
+            .then(() => {
+              next({ action });
+            })
+            .catch((e) => {
+              setError(e?.response?.data?.message);
+            });
         },
         onExpire,
       });

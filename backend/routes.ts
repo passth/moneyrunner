@@ -1,4 +1,5 @@
 import { Router } from "express";
+import * as db from "./db";
 import * as services from "./services";
 import * as middlewares from "./middlewares";
 import * as passthrough from "./passthrough";
@@ -125,21 +126,30 @@ router.post("/funds/:fundId", middlewares.authenticate, async (req: any, res: an
 });
 
 /* Move a subscription status to signed, called when everything is completed */
-router.post("/funds/:fundId/complete", middlewares.authenticate, async (req: any, res: any) => {
-  const fundId = parseInt(req.params.fundId, 10);
-  const fund = await services.getFundById(req.user.id, fundId);
+router.post("/funds/:fundId/complete", middlewares.authenticate, async (req: any, res: any) =>
+  db.knex.transaction(async (transaction) => {
+    const fundId = parseInt(req.params.fundId, 10);
+    const subscription = await services.getSubscription(fundId, req.user.id, transaction);
 
-  if (!fund || !fund?.subscriptionId) {
-    return res.status(404);
-  }
+    if (!subscription) {
+      return res.status(404);
+    }
 
-  await services.updateSubscription({
-    id: fund.subscriptionId,
-    status: "signed",
-  });
+    if (subscription.status !== "sent") {
+      return res.status(400).json({ message: "You cannot complete this subscription document." });
+    }
 
-  return res.status(200).json({ message: "Subscription completed" });
-});
+    await services.updateSubscription(
+      {
+        id: subscription.id,
+        status: "signed",
+      },
+      transaction
+    );
+
+    return res.status(200).json({ message: "Subscription completed" });
+  })
+);
 
 /**
  * Passthrough endpoints

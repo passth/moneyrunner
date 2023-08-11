@@ -1,4 +1,3 @@
-import { ErrorRequestHandler } from "express";
 import rateLimit from "express-rate-limit";
 import session from "express-session";
 import lusca from "lusca";
@@ -52,27 +51,3 @@ export const defaultLimiter = rateLimit({
   // IP address from requestIp.mw(), as opposed to req.ip
   keyGenerator: (req) => req.clientIp,
 });
-
-export const startTransaction = async (req: any, _: any, next: any) => {
-  req.trx = await db.knex.transaction();
-  next();
-};
-
-export const rollbackTransaction: ErrorRequestHandler = (
-  error: any,
-  req: any,
-  _: any,
-  next: any
-) => {
-  if (req.trx) {
-    req.trx.rollback(error);
-  }
-  next(error);
-};
-
-export const commitTransaction = (req: any, _: any, next: any) => {
-  if (req.trx) {
-    req.trx.commit();
-  }
-  next();
-};

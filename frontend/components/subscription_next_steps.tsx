@@ -12,7 +12,22 @@ import FlagIcon from "@material-ui/icons/Flag";
 import BorderColorIcon from "@material-ui/icons/BorderColor";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 
-export const SubscriptionNextSteps = () => (
+const getActionDescription = (action) => {
+  switch (action) {
+    case "SIGNED":
+      return "You signed your subscription documents.";
+    case "SUBMITTED":
+      return "You completed your subscription documents.";
+    case "REQUESTED_REVIEW":
+      return "You requested a review.";
+    case "SUBMITTED_FOR_NEXT_SIGNER":
+      return "You completed and notified the authorized signer.";
+    default:
+      return "Completed";
+  }
+};
+
+export const SubscriptionNextSteps = ({ data }) => (
   <Box width="100%" mt={4}>
     <div style={{ textAlign: "center" }}>
       <Typography variant="h5">All done!</Typography>
@@ -25,21 +40,23 @@ export const SubscriptionNextSteps = () => (
     </div>
     <div style={{ marginTop: 30 }}>
       <Timeline align="alternate">
-        <TimelineItem>
-          <TimelineSeparator>
-            <TimelineConnector />
-            <TimelineDot color="primary">
-              <FlagIcon />
-            </TimelineDot>
-            <TimelineConnector style={{ height: 50 }} />
-          </TimelineSeparator>
-          <TimelineContent>
-            <Typography variant="h6" component="span">
-              You signed your subscription
-            </Typography>
-            <Typography>Today</Typography>
-          </TimelineContent>
-        </TimelineItem>
+        {data.action ? (
+          <TimelineItem>
+            <TimelineSeparator>
+              <TimelineConnector />
+              <TimelineDot color="primary">
+                <FlagIcon />
+              </TimelineDot>
+              <TimelineConnector style={{ height: 50 }} />
+            </TimelineSeparator>
+            <TimelineContent>
+              <Typography variant="h6" component="span">
+                {getActionDescription(data.action)}
+              </Typography>
+              <Typography>Today</Typography>
+            </TimelineContent>
+          </TimelineItem>
+        ) : null}
         <TimelineItem>
           <TimelineSeparator>
             <TimelineConnector />

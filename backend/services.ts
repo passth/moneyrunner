@@ -100,8 +100,21 @@ export function createSubscription(
   });
 }
 
-export function updateSubscription({ id, ...attrs }) {
-  return subscriptions().where({ id }).update(attrs);
+export function getSubscription(fundId: number, userId: number, trx) {
+  return subscriptions()
+    .transacting(trx)
+    .forUpdate()
+    .select("id", "userId", "fundId", "isActive", "status")
+    .where({
+      userId,
+      fundId,
+      isActive: true,
+    })
+    .first();
+}
+
+export function updateSubscription({ id, ...attrs }, trx) {
+  return subscriptions().transacting(trx).where({ id }).update(attrs);
 }
 
 export function updatePassthroughSubscription(passthroughInvestorClosingId, attrs) {
