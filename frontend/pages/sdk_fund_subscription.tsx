@@ -14,8 +14,10 @@ import {
   ListItem,
   ListItemText,
 } from "@material-ui/core";
+import FullScreenIcon from "@material-ui/icons/Fullscreen";
 import { useParams, useNavigate } from "react-router-dom";
 
+import { useFullScreen } from "services/providers/fullscreen";
 import * as fundService from "services/funds";
 import { useScreenSize } from "services/utils";
 import { Page } from "components/page";
@@ -41,6 +43,7 @@ export function SDKFundSubscription() {
   const [error, setError] = React.useState(null);
   const [openExpiredDialog, setOpenExpiredDialog] = React.useState(false);
   const { isMobile } = useScreenSize();
+  const { fullScreen, setFullScreen } = useFullScreen();
 
   const fetchToken = (id) => {
     fundService.getPassthroughSession({ fundId: id }).then(({ data }: any) => {
@@ -97,6 +100,20 @@ export function SDKFundSubscription() {
     }
   };
 
+  if (fullScreen) {
+    return (
+      <Page size={null}>
+        <StepComponent
+          fundId={fund.id}
+          next={next}
+          token={token}
+          data={stepData}
+          setError={setError}
+        />
+      </Page>
+    );
+  }
+
   return (
     <Page size="lg">
       <SessionExpiredDialog
@@ -125,6 +142,15 @@ export function SDKFundSubscription() {
         >
           <Typography variant="h6">{fund?.name}</Typography>
           <Box display="flex" gridGap={10} mt={isMobile ? 2 : 0}>
+            {step === 1 ? (
+              <Button
+                onClick={() => setFullScreen(true)}
+                startIcon={<FullScreenIcon />}
+                data-test="full-screen"
+              >
+                Full screen
+              </Button>
+            ) : null}
             <Button onClick={() => fetchToken(fund.id)}>Refresh token</Button>
             <DemoButton />
           </Box>

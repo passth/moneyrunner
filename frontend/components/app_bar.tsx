@@ -4,12 +4,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import TranslateIcon from "@material-ui/icons/Translate";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import ViewCompactIcon from "@material-ui/icons/ViewCompact";
+import FullScreenExitIcon from "@material-ui/icons/FullscreenExit";
 import MenuIcon from "@material-ui/icons/Menu";
 
 import { logout } from "services/auth";
 import { useScreenSize } from "services/utils";
 import { useCustomTheme, THEMES } from "services/providers/theme";
 import { useExample, EXAMPLES } from "services/providers/example";
+import { useFullScreen } from "services/providers/fullscreen";
 
 import { Logo } from "./logo";
 import { Dropdown } from "./dropdown";
@@ -41,6 +43,7 @@ export const AppBar = () => {
   const { theme, setTheme } = useCustomTheme();
   const { example, setExample } = useExample();
   const { isMobile } = useScreenSize();
+  const { fullScreen, setFullScreen } = useFullScreen();
 
   if (isMobile) {
     return (
@@ -78,13 +81,20 @@ export const AppBar = () => {
     <MuiAppBar position="absolute" color="default" elevation={0} className={classes.root}>
       <Logo small />
       <div>
+        {fullScreen ? (
+          <Button onClick={() => setFullScreen(!fullScreen)} startIcon={<FullScreenExitIcon />}>
+            Exit full screen
+          </Button>
+        ) : null}
         <Dropdown
+          testId="examples"
           icon={<ViewCompactIcon />}
           options={EXAMPLES}
           selected={example}
           onSelect={(e) => setExample(e.name)}
         />
         <Dropdown
+          testId="theme"
           icon={<TranslateIcon />}
           options={THEMES}
           selected={theme}

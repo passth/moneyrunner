@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Page = ({ children, size = "md" }: { children: any; size?: "md" | "lg" }) => {
+export const Page = ({ children, size = "md" }: { children: any; size?: "md" | "lg" | null }) => {
   const classes = useStyles();
   return (
     <>
