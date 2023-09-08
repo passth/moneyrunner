@@ -135,6 +135,10 @@ router.post("/funds/:fundId/complete", middlewares.authenticate, async (req: any
       return res.status(404);
     }
 
+    if (subscription.status === "signed") {
+      return res.status(200).json({ message: "Subscription document was already completed" });
+    }
+
     if (subscription.status !== "sent") {
       return res.status(400).json({ message: "You cannot complete this subscription document." });
     }
