@@ -30,7 +30,7 @@ const initialData = {
     },
     {
       id: 5,
-      name: "Stockpicker's Paradise SPV",
+      name: "Stockpicker's Paradise SPV", // cspell:disable-line
       size: "$70M",
       passthroughFundId: "8dd3b770-5a1e-4a6c-9319-8c7a19d9aefb",
       passthroughClosingId: "7470c53b-bee9-4c0a-8bf3-7d7f07ded3e0",

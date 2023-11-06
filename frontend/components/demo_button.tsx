@@ -157,7 +157,7 @@ export function DemoButton() {
     forceInput("#giin", "123456.78901.AB.123");
     forceInput("#placeOfBirth", "New York");
 
-    // for w9 autofilling
+    // for w9 autofill
     forceInput("#name", "John Doe");
     forceInput("#address1", "30 Oak Grove Way");
     forceInput("#address2", "California");

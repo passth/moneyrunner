@@ -1,3 +1,4 @@
+// cspell:words sess tablename createtable
 import knexSession from "connect-session-knex";
 import session from "express-session";
 import * as types from "../types";
