@@ -20,7 +20,7 @@
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.2.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
-    "axios": "^1.6.0",
+    "axios": "^1.7.4",
     "connect-session-knex": "^3.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
