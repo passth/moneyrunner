@@ -32,6 +32,7 @@ export const SubscriptionPassthrough = ({ fundId, next, onExpire, token, setErro
           backgroundColor: theme.palette.background.default,
           fontFamily: theme.typography.fontFamily,
         },
+        features: { collaborators: true },
         onFinish: ({ action }) => {
           fundService
             .completeSubscription({ fundId })
