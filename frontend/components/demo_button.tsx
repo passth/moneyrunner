@@ -194,7 +194,13 @@ export function DemoButton() {
         </Typography>
       }
     >
-      <Button className={classes.testMode} onClick={onTestModeClick} size="small" disableElevation>
+      <Button
+        className={classes.testMode}
+        onClick={onTestModeClick}
+        size="large"
+        disableElevation
+        data-test="demo-mode-btn"
+      >
         Demo mode
       </Button>
     </Tooltip>

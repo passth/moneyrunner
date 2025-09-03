@@ -8,15 +8,15 @@ export const Dropdown = ({
   onSelect,
   testId,
 }: {
-  icon: any;
-  options: any;
-  selected: any;
-  onSelect: any;
+  icon: React.ReactNode;
+  options: Array<{ name: string; display: string }>;
+  selected: { name: string; display: string };
+  onSelect: (option: { name: string; display: string }) => void;
   testId?: string;
 }) => {
-  const [el, setEl] = React.useState(null);
+  const [el, setEl] = React.useState<HTMLElement | null>(null);
 
-  const openMenu = (event: any) => {
+  const openMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setEl(event.currentTarget);
   };
 
@@ -32,7 +32,6 @@ export const Dropdown = ({
     <>
       <Button
         onClick={openMenu}
-        style={{ marginRight: 10 }}
         startIcon={icon}
         data-test={testId}
         disableRipple

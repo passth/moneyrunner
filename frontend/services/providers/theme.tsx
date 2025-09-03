@@ -2,15 +2,25 @@ import * as React from "react";
 import { ThemeProvider, createTheme } from "@material-ui/core";
 import { defaultTheme, darkTheme, buildTheme } from "../theme";
 
+type ThemeDefinition = {
+  type: string;
+  backgroundColor: string;
+  primaryColor: {
+    main: string;
+    dark: string;
+    light: string;
+  };
+};
+
 type Theme = {
-  name: "default" | "dark";
+  name: string;
   display: string;
-  theme: any;
+  theme: ThemeDefinition;
 };
 
 type ThemeValue = {
   theme: Theme;
-  setTheme: (name: "default" | "dark") => void;
+  setTheme: (name: string) => void;
 };
 
 export const CustomThemeContext = React.createContext<ThemeValue>(null);

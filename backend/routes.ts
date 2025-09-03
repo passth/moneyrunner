@@ -1,14 +1,10 @@
 import { Router } from "express";
-import * as db from "./db";
 import * as services from "./services";
 import * as middlewares from "./middlewares";
-import * as passthrough from "./passthrough";
+import { PassthroughClient, InvestorClosing, Fund } from "./passthrough";
+import { validateUUID } from "./validators";
 
 const router = Router();
-
-/**
- * Auth endpoints
- */
 
 /* Generate auth uri */
 router.post("/auth/login", async (req, res) => {
@@ -47,159 +43,165 @@ router.get("/auth/me", middlewares.authenticate, async (req: any, res: any) =>
   res.status(200).json(req.user)
 );
 
-/**
- * Fund endpoints
- */
-
-/* List funds with subscriptions */
+/** List funds */
 router.get("/funds", middlewares.authenticate, async (req: any, res: any) => {
-  const funds = await services.getFunds(req.user.id);
-  return res.json(funds);
+  const sessionSettings = req.session.settings || {};
+  const passthrough = new PassthroughClient(sessionSettings.apiKey, sessionSettings.baseUrl);
+  let funds: Fund[];
+
+  try {
+    funds = await passthrough.listFunds();
+  } catch (e) {
+    console.error("Error fetching funds:", e);
+    return res.json([]);
+  }
+
+  return res.json(funds.filter((f) => f.is_live));
 });
 
-/* Retrieve a single fund with an active subscription */
+/** Get a single fund */
 router.get("/funds/:fundId", middlewares.authenticate, async (req: any, res: any) => {
-  const fundId = parseInt(req.params.fundId, 10);
-  const fund = await services.getFundById(req.user.id, fundId);
+  if (!validateUUID(req.params.fundId)) {
+    return res.status(404).json({ message: "Not found" });
+  }
 
-  if (!fund || !fund?.subscriptionId) {
+  const sessionSettings = req.session.settings || {};
+  const passthrough = new PassthroughClient(sessionSettings.apiKey, sessionSettings.baseUrl);
+  let funds: Fund[];
+
+  try {
+    funds = await passthrough.listFunds();
+  } catch (e) {
+    console.error("Error fetching funds:", e);
+    return res.status(404);
+  }
+
+  const fund = funds.filter((f) => f.is_live).find((f) => f.id === req.params.fundId);
+
+  if (!fund) {
     return res.status(404);
   }
 
   return res.json(fund);
 });
 
-/**
- * Subscription endpoints
- */
-
-/* Create a subscription to a fund */
-router.post("/funds/:fundId", middlewares.authenticate, async (req: any, res: any) => {
-  const fundId = parseInt(req.params.fundId, 10);
-  const fund = await services.getFundById(req.user.id, fundId);
-  let investorClosing: passthrough.InvestorClosingType = null;
-
-  if (!fund) {
-    return res.status(404);
+/** Lists subscriptions */
+router.get("/funds/:fundId/subscriptions", middlewares.authenticate, async (req: any, res: any) => {
+  if (!validateUUID(req.params.fundId)) {
+    return res.status(404).json({ message: "Not found" });
   }
 
-  if (fund?.subscriptionId) {
-    return res.status(200).json(fund);
-  }
+  const sessionSettings = req.session.settings || {};
+  const passthrough = new PassthroughClient(sessionSettings.apiKey, sessionSettings.baseUrl);
+  let subscriptions: InvestorClosing[];
 
   try {
-    investorClosing = await passthrough.createInvestorClosing(
-      fund.passthroughFundId,
-      fund.passthroughClosingId,
-      req.user
-    );
+    subscriptions = await passthrough.listInvestorClosings(req.params.fundId, req.user.email);
   } catch (e) {
-    console.error(e);
-    return res.status(500).json({ message: "Error creating investor closing" });
+    console.error("Error fetching subscriptions:", e);
+    return res.json([]);
   }
 
-  try {
-    await passthrough.sendInvestorClosing(
-      fund.passthroughFundId,
-      fund.passthroughClosingId,
-      investorClosing.id
-    );
-  } catch (e) {
-    console.error(e);
-    return res.status(500).json({ message: "Error sending investor closing" });
-  }
-
-  try {
-    await services.createSubscription(
-      fund.id,
-      req.user.id,
-      investorClosing.id,
-      investorClosing.collaborators[0].sign_in_url
-    );
-  } catch (e) {
-    console.error(e);
-    return res.status(500).json({ message: "Error creating subscription" });
-  }
-
-  const updatedFund = await services.getFundById(req.user.id, fundId);
-  return res.status(201).json(updatedFund);
+  const result = subscriptions
+    .filter((s) => s.status !== "unsent")
+    .sort((a, b) => a.investor_name.localeCompare(b.investor_name));
+  return res.json(result);
 });
 
-/* Move a subscription status to signed, called when everything is completed */
-router.post("/funds/:fundId/complete", middlewares.authenticate, async (req: any, res: any) =>
-  db.knex.transaction(async (transaction) => {
-    const fundId = parseInt(req.params.fundId, 10);
-    const subscription = await services.getSubscription(fundId, req.user.id, transaction);
-
-    if (!subscription) {
-      return res.status(404);
-    }
-
-    if (subscription.status === "signed") {
-      return res.status(200).json({ message: "Subscription document was already completed" });
-    }
-
-    if (subscription.status !== "sent") {
-      return res.status(400).json({ message: "You cannot complete this subscription document." });
-    }
-
-    await services.updateSubscription(
-      {
-        id: subscription.id,
-        status: "signed",
-      },
-      transaction
-    );
-
-    return res.status(200).json({ message: "Subscription completed" });
-  })
-);
-
-/**
- * Passthrough endpoints
- */
-
-/* Create a passthrough session for the SDK */
-router.post(
-  "/funds/:fundId/get-passthrough-session",
-  middlewares.authenticate,
-  async (req: any, res: any) => {
-    const fundId = parseInt(req.params.fundId, 10);
-    const fund = await services.getFundById(req.user.id, fundId);
-
-    if (!fund || !fund?.subscriptionPassthroughInvestorClosingId) {
-      return res.status(404);
-    }
-
-    const response = await passthrough.createEmbeddedSession(
-      fund.passthroughFundId,
-      fund.passthroughClosingId,
-      fund.subscriptionPassthroughInvestorClosingId,
-      req.user
-    );
-
-    return res.status(201).json({ token: response.data.token });
-  }
-);
-
-/* Listen to passthrough webhooks */
-router.post("/passthrough-callback", async (req: any, res: any) => {
-  const { event_type: eventType, data } = req.body;
-
-  if (eventType === "investor-closing-status-change") {
-    await services.updatePassthroughSubscription(data.investor_closing.id, {
-      status: data.investor_closing.status,
-    });
-  } else if (eventType === "investor-closing-signable") {
-    const user = await services.getUserByEmail(data.investor_closing.next_signer.email);
-    const userId = user?.id;
-    await services.updatePassthroughSubscription(data.investor_closing.id, {
-      userId,
-      status: data.investor_closing.status,
-    });
+/** Get subscription */
+router.get("/subscriptions/:id", middlewares.authenticate, async (req: any, res: any) => {
+  if (!validateUUID(req.params.id)) {
+    return res.status(404).json({ message: "Not found" });
   }
 
-  return res.status(204).json({});
+  const sessionSettings = req.session.settings || {};
+  const passthrough = new PassthroughClient(sessionSettings.apiKey, sessionSettings.baseUrl);
+  let subscription: InvestorClosing;
+
+  try {
+    subscription = await passthrough.getInvestorClosing(req.params.id);
+  } catch (e) {
+    console.error("Error fetching subscription:", e);
+    return res.status(404).json({ message: "Not found" });
+  }
+
+  let token = null;
+
+  if (!subscription) {
+    return res.status(404).json({ message: "Subscription not found" });
+  }
+
+  const needsAttention = ["sent", "in_progress", "requested_changes"].includes(subscription.status);
+  const isNextSigner =
+    subscription.status === "partially_signed" &&
+    subscription?.next_signer?.email === req.user.email;
+  const shouldGenerateToken = needsAttention || isNextSigner;
+
+  if (shouldGenerateToken) {
+    try {
+      token = await passthrough.createEmbeddedSession(
+        subscription.fund_closing.fund.id,
+        subscription.fund_closing.id,
+        subscription.id,
+        req.user
+      );
+    } catch (e) {
+      console.error("Error creating embedded session:", e);
+    }
+  }
+
+  return res.json({
+    subscription,
+    token,
+  });
+});
+
+/** Create subscription */
+router.post("/subscriptions", middlewares.authenticate, async (req: any, res: any) => {
+  const { fundId, legalName } = req.body;
+
+  if (!validateUUID(fundId)) {
+    return res.status(404).json({ message: "Not found" });
+  }
+
+  const sessionSettings = req.session.settings || {};
+  const passthrough = new PassthroughClient(sessionSettings.apiKey, sessionSettings.baseUrl);
+
+  try {
+    const subscription = await passthrough.createInvestorClosing(fundId, req.user, legalName);
+    await passthrough.sendInvestorClosing(fundId, subscription.fund_closing.id, subscription.id);
+    return res.json({ id: subscription.id });
+  } catch (e) {
+    console.error("Error creating subscription:", e);
+    return res.status(404).json({ message: "Not found" });
+  }
+});
+
+/** Get settings */
+router.get("/settings", middlewares.authenticate, async (req: any, res: any) => {
+  const sessionSettings = req.session.settings || {};
+  return res.json({
+    baseUrl: sessionSettings.baseUrl || process.env.PASSTHROUGH_BASE_URL || null,
+  });
+});
+
+/** Update settings */
+router.patch("/settings", middlewares.authenticate, async (req: any, res: any) => {
+  const { baseUrl, apiKey } = req.body;
+
+  if (!req.session.settings) {
+    req.session.settings = {};
+  }
+
+  if (baseUrl !== undefined) {
+    req.session.settings.baseUrl = baseUrl;
+  }
+
+  if (apiKey !== undefined) {
+    req.session.settings.apiKey = apiKey;
+  }
+
+  return res.json({ message: "Settings updated successfully" });
 });
 
 export default router;

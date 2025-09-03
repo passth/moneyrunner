@@ -1,82 +1,36 @@
 import * as React from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Button,
-  Badge,
-} from "@material-ui/core";
+import { Typography, ListItem, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
-  allOpportunities: {
-    marginBottom: theme.spacing(2),
-    marginTop: theme.spacing(4),
+  listItemContent: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+    minHeight: 56,
   },
-  table: {
-    minWidth: 650,
+  paper: {
+    marginBottom: theme.spacing(1),
   },
-  row: {
-    "&:last-child td, &:last-child th": { border: 0 },
+  fundName: {
+    fontWeight: "bold",
   },
 }));
 
-export function FundList({ funds, onView, onSubscribe }) {
+export function FundList({ funds, onClick }) {
   const classes = useStyles();
   return (
-    <TableContainer>
-      <Table className={classes.table} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Fund name</TableCell>
-            <TableCell align="right">Fund size</TableCell>
-            <TableCell align="right" />
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {funds.map((row, idx) => {
-            const isAwaitingJointSignature = row.subscriptionStatus === "partially_signed";
-            return (
-              <TableRow key={row.name} className={classes.row}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="right">{row.size}</TableCell>
-                <TableCell align="right">
-                  {row.subscriptionId ? (
-                    <Badge
-                      variant="dot"
-                      color="error"
-                      invisible={row.subscriptionStatus !== "requested_changes"}
-                    >
-                      <Button
-                        color="primary"
-                        variant="outlined"
-                        onClick={() => onView(row)}
-                        data-test={`view-${idx}`}
-                      >
-                        {isAwaitingJointSignature ? "Sign" : "View"}
-                      </Button>
-                    </Badge>
-                  ) : (
-                    <Button
-                      color="primary"
-                      variant="outlined"
-                      onClick={() => onSubscribe(row)}
-                      data-test={`subscribe-${idx}`}
-                    >
-                      Subscribe
-                    </Button>
-                  )}
-                </TableCell>
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <div>
+      {funds.map((fund, idx) => (
+        <Paper key={fund.name} variant="outlined" elevation={0} className={classes.paper}>
+          <ListItem button onClick={() => onClick(fund)} data-test={`view-${idx}`}>
+            <div className={classes.listItemContent}>
+              <Typography variant="body1">{fund.name}</Typography>
+            </div>
+          </ListItem>
+        </Paper>
+      ))}
+    </div>
   );
 }

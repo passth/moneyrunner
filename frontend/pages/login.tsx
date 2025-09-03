@@ -9,6 +9,12 @@ import { GoogleButton } from "../components/google_button";
 import { login } from "../services/auth";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    marginTop: theme.spacing(20),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.primary.main,
@@ -24,6 +30,9 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(5),
     textAlign: "center",
   },
+  errorText: {
+    marginTop: theme.spacing(1),
+  },
 }));
 
 export const Login = () => {
@@ -34,7 +43,7 @@ export const Login = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     login()
-      .then((response: { data: any }) => {
+      .then((response: { data: { authUri: string } }) => {
         window.location.href = response.data.authUri;
       })
       .catch((e) => {
@@ -45,20 +54,13 @@ export const Login = () => {
   return (
     <Container component="main" maxWidth="sm">
       <CssBaseline />
-      <Box
-        sx={{
-          mt: 20,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
+      <Box className={classes.root}>
         <Paper variant="outlined" className={classes.paper}>
           <div className={classes.logo}>
             <Logo />
           </div>
           {error && (
-            <Typography color="error" style={{ marginTop: "10px" }}>
+            <Typography color="error" className={classes.errorText}>
               {error}
             </Typography>
           )}
