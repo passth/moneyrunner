@@ -2,48 +2,44 @@ import * as React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Error } from "components/error";
 import { protectRoute } from "services/auth";
-import { useExample } from "services/providers/example";
 
-// Pages
-import { APIFundList } from "./pages/api_fund_list";
-import { SDKFundList } from "./pages/sdk_fund_list";
-import { SDKFundSubscription } from "./pages/sdk_fund_subscription";
+import { FundListPage } from "./pages/fund_list";
+import { FundViewPage } from "./pages/fund_view";
+import { SubscriptionPage } from "./pages/subscription";
 import { Login } from "./pages/login";
-
-const apiRoutes = [
-  {
-    path: "/",
-    element: <APIFundList />,
-    errorElement: <Error />,
-    loader: protectRoute,
-  },
-];
-
-const sdkRoutes = [
-  {
-    path: "/",
-    element: <SDKFundList />,
-    errorElement: <Error />,
-    loader: protectRoute,
-  },
-  {
-    path: "/subscribe/:fundId",
-    element: <SDKFundSubscription />,
-    errorElement: <Error />,
-    loader: protectRoute,
-  },
-];
+import { SettingsPage } from "./pages/settings";
 
 export const App = () => {
-  const { example } = useExample();
-  const routes = [
-    ...(example.name === "sdk" ? sdkRoutes : apiRoutes),
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <FundListPage />,
+      errorElement: <Error />,
+      loader: protectRoute,
+    },
+    {
+      path: "/fund/:fundId",
+      element: <FundViewPage />,
+      errorElement: <Error />,
+      loader: protectRoute,
+    },
+    {
+      path: "/fund/:fundId/subscription/:subscriptionId",
+      element: <SubscriptionPage />,
+      errorElement: <Error />,
+      loader: protectRoute,
+    },
     {
       path: "/login",
       element: <Login />,
       errorElement: <Error />,
     },
-  ];
-  const router = createBrowserRouter(routes);
+    {
+      path: "/settings",
+      element: <SettingsPage />,
+      errorElement: <Error />,
+      loader: protectRoute,
+    },
+  ]);
   return <RouterProvider router={router} />;
 };
