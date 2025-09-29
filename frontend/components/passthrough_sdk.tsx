@@ -1,7 +1,7 @@
 import * as React from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
-import { Computer, Fullscreen } from "@material-ui/icons";
+import { Computer, Description, Fullscreen, Group } from "@material-ui/icons";
 import { DemoButton } from "components/demo_button";
 
 const useStyles = makeStyles((theme) => ({
@@ -56,6 +56,10 @@ export const PassthroughSDK = ({ onExpire, onFinish, token }) => {
   const classes = useStyles();
   const theme = useTheme();
   const [size, setSize] = React.useState("normal");
+  const [features, setFeatures] = React.useState(["collaborators", "lpProMode"]);
+  const handleFeatures = (event: React.MouseEvent<HTMLElement>, newFeatures: string[]) => {
+    setFeatures(newFeatures);
+  };
 
   React.useEffect(() => {
     if (divRef?.current && token) {
@@ -68,7 +72,10 @@ export const PassthroughSDK = ({ onExpire, onFinish, token }) => {
           backgroundColor: theme.palette.background.default,
           fontFamily: theme.typography.fontFamily,
         },
-        features: { collaborators: true },
+        features: {
+          collaborators: features.includes("collaborators"),
+          lpProMode: features.includes("lpProMode"),
+        },
         onFinish,
         onExpire: () => onExpire(),
         onError: () => {
@@ -77,7 +84,7 @@ export const PassthroughSDK = ({ onExpire, onFinish, token }) => {
         },
       });
     }
-  }, [divRef, token, theme.palette.type]);
+  }, [divRef, token, theme.palette.type, features]);
 
   const handleSizeChange = (event, newSize) => {
     if (newSize !== null) {
@@ -97,6 +104,19 @@ export const PassthroughSDK = ({ onExpire, onFinish, token }) => {
   return (
     <div>
       <div className={classes.toolbar}>
+        <ToggleButtonGroup
+          value={features}
+          size="small"
+          onChange={handleFeatures}
+          aria-label="features"
+        >
+          <ToggleButton value="collaborators" aria-label="collaborators">
+            <Group />
+          </ToggleButton>
+          <ToggleButton value="lpProMode" aria-label="lpProMode">
+            <Description />
+          </ToggleButton>
+        </ToggleButtonGroup>
         <ToggleButtonGroup
           value={size}
           exclusive
