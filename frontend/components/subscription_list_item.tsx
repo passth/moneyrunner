@@ -11,6 +11,11 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     minHeight: 56,
   },
+  statusContainer: {
+    display: "flex",
+    flexDirection: "column",
+    gap: theme.spacing(1),
+  },
   paper: {
     marginBottom: theme.spacing(1),
   },

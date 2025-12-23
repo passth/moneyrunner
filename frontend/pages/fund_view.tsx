@@ -11,6 +11,8 @@ import * as auth from "services/auth";
 import { isInProgress } from "services/status";
 import { Fund, Subscription } from "services/api";
 
+const inProgress = (sub: Subscription) => isInProgress(sub.status);
+
 export function FundViewPage() {
   const { fundId } = useParams();
   const [fund, setFund] = React.useState<Fund | null>(null);
@@ -21,9 +23,8 @@ export function FundViewPage() {
   const navigate = useNavigate();
 
   const isLoading = !fund || !subscriptions;
-  const needsAttentionSubscriptions =
-    subscriptions?.filter((sub) => isInProgress(sub.status)) || [];
-  const pastSubscriptions = subscriptions?.filter((sub) => !isInProgress(sub.status)) || [];
+  const needsAttentionSubscriptions = subscriptions?.filter(inProgress) || [];
+  const pastSubscriptions = subscriptions?.filter((sub) => !inProgress(sub)) || [];
 
   React.useEffect(() => {
     const loadData = async () => {

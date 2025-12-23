@@ -131,7 +131,8 @@ router.get("/subscriptions/:id", middlewares.authenticate, async (req: any, res:
     return res.status(404).json({ message: "Subscription not found" });
   }
 
-  const needsAttention = ["sent", "in_progress", "requested_changes"].includes(subscription.status);
+  const inProgressStatuses = ["sent", "in_progress", "requested_changes"];
+  const needsAttention = inProgressStatuses.includes(subscription.status);
   const isNextSigner =
     subscription.status === "partially_signed" &&
     subscription?.next_signer?.email === req.user.email;
