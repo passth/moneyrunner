@@ -85,5 +85,8 @@
     "webpack": "^5.94.0",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^5.2.1"
+  },
+  "overrides": {
+    "tar": ">=7.5.4"
   }
 }
