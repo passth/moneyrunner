@@ -23,7 +23,7 @@ const instance = isPgEnabled
       useNullAsDefault: true,
     })
   : knex({
-      client: "sqlite3",
+      client: "better-sqlite3",
       connection: { filename: "./local.sqlite" },
       useNullAsDefault: true,
     });
