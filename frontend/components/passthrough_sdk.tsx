@@ -47,6 +47,10 @@ declare global {
         onExpire: () => void;
         onError: () => void;
       }) => void;
+      // Prefills the current v3 question with demo data and advances.
+      // Resolves to false when there's no v3 question to fill (e.g. v2),
+      // otherwise resolves once the advance has been attempted.
+      triggerDemo?: () => Promise<boolean>;
     };
   }
 }
@@ -75,6 +79,8 @@ export const PassthroughSDK = ({ onExpire, onFinish, token }) => {
         features: {
           collaborators: features.includes("collaborators"),
           lpProMode: features.includes("lpProMode"),
+          // This is a demo harness, so opt into the SDK's demo prefill.
+          demoMode: true,
         },
         onFinish,
         onExpire: () => onExpire(),

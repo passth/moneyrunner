@@ -94,6 +94,23 @@ export function DemoButton() {
 
     setForcingInput(true);
 
+    // V3 questionnaires are rendered by the SDK, which fills them through
+    // React state. Prefer that; fall back to legacy DOM poking for v2.
+    // Await it so the guard stays held until the fill + advance finish,
+    // preventing overlapping runs from rapid clicks.
+    let handledByV3 = false;
+    try {
+      handledByV3 = !!(await window.PassthroughSDK?.triggerDemo?.());
+    } catch {
+      // SDK demo errored; treat as handled so we release the guard and skip
+      // the v2 DOM fallback rather than leaving the button stuck.
+      handledByV3 = true;
+    }
+    if (handledByV3) {
+      setForcingInput(false);
+      return;
+    }
+
     const submit: any = document.querySelector("#continue");
     if (submit) {
       submit.click();
