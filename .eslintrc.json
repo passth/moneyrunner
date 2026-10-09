@@ -12,7 +12,15 @@
     "browser": true
   },
   "settings": {
-    "import/resolver": "webpack"
+    "import/resolver": {
+      "alias": {
+        "map": [
+          ["components", "./frontend/components"],
+          ["services", "./frontend/services"]
+        ],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
   },
   "rules": {
     "max-len": [

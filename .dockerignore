@@ -1,7 +1,6 @@
 *
 !frontend
 !backend
-!.babelrc
 !.env
 !.env.prod
 !.env.local
@@ -11,7 +10,7 @@
 !tsconfig.backend.json
 !package.json
 !package-lock.json
-!webpack.config.js
+!vite.config.mts
 !eslintrc.json
 
 backend/public/*
