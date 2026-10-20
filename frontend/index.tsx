@@ -7,6 +7,7 @@ import "./index.css";
 import { App } from "./app";
 import { CustomThemeProvider } from "./services/providers/theme";
 
+// eslint-disable-next-line react/no-deprecated
 ReactDOM.render(
   <CustomThemeProvider>
     <>

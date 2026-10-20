@@ -23,6 +23,7 @@
     }
   },
   "rules": {
+    "@typescript-eslint/no-unused-vars": ["error", { "caughtErrors": "none" }],
     "max-len": [
       "error",
       {
