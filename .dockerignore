@@ -11,6 +11,6 @@
 !package.json
 !package-lock.json
 !vite.config.mts
-!eslintrc.json
+!.oxlintrc.json
 
 backend/public/*
