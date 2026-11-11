@@ -1,6 +1,12 @@
 import * as React from "react";
-import { ThemeProvider, createTheme } from "@material-ui/core";
+import { ThemeProvider, StyledEngineProvider, createTheme } from "@mui/material/styles";
+import type { Theme as MuiTheme } from "@mui/material/styles";
 import { defaultTheme, darkTheme, buildTheme } from "../theme";
+
+declare module "@mui/styles/defaultTheme" {
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+  interface DefaultTheme extends MuiTheme {}
+}
 
 type ThemeDefinition = {
   type: string;
@@ -62,7 +68,9 @@ export const CustomThemeProvider = ({ children }) => {
   const value = React.useMemo(() => ({ theme, setTheme: updateTheme }), [theme, updateTheme]);
   return (
     <CustomThemeContext.Provider value={value}>
-      <ThemeProvider theme={createTheme(muiTheme)}>{children}</ThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={createTheme(muiTheme)}>{children}</ThemeProvider>
+      </StyledEngineProvider>
     </CustomThemeContext.Provider>
   );
 };

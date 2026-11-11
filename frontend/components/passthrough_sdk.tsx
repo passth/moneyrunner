@@ -1,7 +1,8 @@
 import * as React from "react";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
-import { Computer, Description, Fullscreen, Group } from "@material-ui/icons";
+import { useTheme } from "@mui/material/styles";
+import { makeStyles } from "@mui/styles";
+import { ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { Computer, Description, Fullscreen, Group, VerticalSplit } from "@mui/icons-material";
 import { DemoButton } from "components/demo_button";
 
 const useStyles = makeStyles((theme) => ({
@@ -71,7 +72,7 @@ export const PassthroughSDK = ({ onExpire, onFinish, token }) => {
         elementId: "passthrough",
         token,
         theme: {
-          type: theme.palette.type,
+          type: theme.palette.mode,
           primaryColor: theme.palette.primary,
           backgroundColor: theme.palette.background.default,
           fontFamily: theme.typography.fontFamily,
@@ -79,6 +80,7 @@ export const PassthroughSDK = ({ onExpire, onFinish, token }) => {
         features: {
           collaborators: features.includes("collaborators"),
           lpProMode: features.includes("lpProMode"),
+          expandedNavigation: features.includes("expandedNavigation"),
           // This is a demo harness, so opt into the SDK's demo prefill.
           demoMode: true,
         },
@@ -90,7 +92,7 @@ export const PassthroughSDK = ({ onExpire, onFinish, token }) => {
         },
       });
     }
-  }, [divRef, token, theme.palette.type, features]);
+  }, [divRef, token, theme.palette.mode, features]);
 
   const handleSizeChange = (event, newSize) => {
     if (newSize !== null) {
@@ -121,6 +123,9 @@ export const PassthroughSDK = ({ onExpire, onFinish, token }) => {
           </ToggleButton>
           <ToggleButton value="lpProMode" aria-label="lpProMode">
             <Description />
+          </ToggleButton>
+          <ToggleButton value="expandedNavigation" aria-label="expandedNavigation">
+            <VerticalSplit />
           </ToggleButton>
         </ToggleButtonGroup>
         <ToggleButtonGroup

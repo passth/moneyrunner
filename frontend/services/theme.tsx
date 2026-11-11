@@ -84,8 +84,12 @@ export const WHITE = "#FFFFFF";
 export const BLACK = "#000000";
 
 export const buildTheme = ({ primaryColor, backgroundColor, type }) => ({
+  // MUI v4 breakpoint values. v5 defaults shrink Container widths, which changes the SDK's layout
+  breakpoints: {
+    values: { xs: 0, sm: 600, md: 960, lg: 1280, xl: 1920 },
+  },
   palette: {
-    type,
+    mode: type as "light" | "dark",
     background: {
       default: backgroundColor,
     },

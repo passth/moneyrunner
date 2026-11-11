@@ -8,9 +8,9 @@ import {
   Box,
   CircularProgress,
   Snackbar,
-} from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
-import { makeStyles } from "@material-ui/core/styles";
+  Alert,
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
 
 import { Page } from "components/page";
 import * as api from "services/api";

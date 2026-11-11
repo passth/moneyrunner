@@ -1,12 +1,9 @@
 /* eslint-disable max-len */
 import * as React from "react";
+import { SvgIcon } from "@mui/material";
 
-export const GoogleIcon = ({ className }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    className={`MuiSvgIcon-root ${className}`}
-  >
+export const GoogleIcon = ({ className }: { className?: string }) => (
+  <SvgIcon viewBox="0 0 24 24" className={className}>
     <g transform="matrix(1, 0, 0, 1, 27.009001, -39.238998)">
       <path
         fill="#4285F4"
@@ -25,5 +22,5 @@ export const GoogleIcon = ({ className }) => (
         d="M -14.754 43.989 C -12.984 43.989 -11.404 44.599 -10.154 45.789 L -6.734 42.369 C -8.804 40.429 -11.514 39.239 -14.754 39.239 C -19.444 39.239 -23.494 41.939 -25.464 45.859 L -21.484 48.949 C -20.534 46.099 -17.884 43.989 -14.754 43.989 Z"
       />
     </g>
-  </svg>
+  </SvgIcon>
 );

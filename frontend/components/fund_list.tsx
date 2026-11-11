@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Typography, ListItem, Paper } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Typography, ListItem, Paper } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
   listItemContent: {

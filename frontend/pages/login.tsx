@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Paper, Box, Typography, Container } from "@material-ui/core";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { makeStyles } from "@material-ui/core/styles";
+import { Paper, Box, Typography, Container } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import { makeStyles } from "@mui/styles";
 
 import { Logo } from "components/logo";
 import { GoogleButton } from "../components/google_button";

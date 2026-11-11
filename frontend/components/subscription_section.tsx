@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Typography, List } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Typography, List } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import { SubscriptionListItem } from "./subscription_list_item";
 
 const useStyles = makeStyles((theme) => ({

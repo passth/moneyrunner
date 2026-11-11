@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Typography, Box, List, ListItem, Paper } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Typography, Box, List, ListItem, Paper } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import { StatusIndicator } from "./status_indicator";
 
 const useStyles = makeStyles((theme) => ({

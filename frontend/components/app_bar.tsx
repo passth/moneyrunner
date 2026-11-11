@@ -1,10 +1,10 @@
 import * as React from "react";
-import { AppBar as MuiAppBar, Button, IconButton } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import TranslateIcon from "@material-ui/icons/Translate";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import MenuIcon from "@material-ui/icons/Menu";
-import SettingsIcon from "@material-ui/icons/Settings";
+import { AppBar as MuiAppBar, Button, IconButton } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import TranslateIcon from "@mui/icons-material/Translate";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import MenuIcon from "@mui/icons-material/Menu";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 import { logout } from "services/auth";
 import { useScreenSize } from "services/utils";
@@ -63,10 +63,14 @@ export const AppBar = () => {
               selected={theme}
               onSelect={(t) => setTheme(t.name)}
             />
-            <Button onClick={() => navigate("/settings")} startIcon={<SettingsIcon />}>
+            <Button
+              color="inherit"
+              onClick={() => navigate("/settings")}
+              startIcon={<SettingsIcon />}
+            >
               Settings
             </Button>
-            <Button onClick={logout} startIcon={<ExitToAppIcon />}>
+            <Button color="inherit" onClick={logout} startIcon={<ExitToAppIcon />}>
               Logout
             </Button>
           </div>
@@ -86,10 +90,10 @@ export const AppBar = () => {
           selected={theme}
           onSelect={(t) => setTheme(t.name)}
         />
-        <Button onClick={() => navigate("/settings")} startIcon={<SettingsIcon />}>
+        <Button color="inherit" onClick={() => navigate("/settings")} startIcon={<SettingsIcon />}>
           Settings
         </Button>
-        <Button onClick={logout} startIcon={<ExitToAppIcon />}>
+        <Button color="inherit" onClick={logout} startIcon={<ExitToAppIcon />}>
           Logout
         </Button>
       </div>

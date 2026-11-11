@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Menu, MenuItem, Button } from "@material-ui/core";
+import { Menu, MenuItem, Button } from "@mui/material";
 
 export const Dropdown = ({
   icon,
@@ -31,6 +31,7 @@ export const Dropdown = ({
   return (
     <>
       <Button
+        color="inherit"
         onClick={openMenu}
         startIcon={icon}
         data-test={testId}

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Tooltip from "@material-ui/core/Tooltip";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@mui/styles";
+import Tooltip from "@mui/material/Tooltip";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 import { getUser } from "services/auth";
 
 export const BRIGHT_PURPLE = "#8060FF";
@@ -186,17 +186,17 @@ export function DemoButton() {
     await new Promise((r) => setTimeout(r, 100));
 
     if (stateEl) {
-      const state: any = document.querySelector(`#${stateEl.id}-option-0`);
+      const state: any = document.getElementById(`${stateEl.id}-option-0`);
       if (state) state.click();
     }
 
     if (countryEl) {
-      const usa: any = document.querySelector(`#${countryEl.id}-option-0`);
+      const usa: any = document.getElementById(`${countryEl.id}-option-0`);
       if (usa) usa.click();
     }
 
     if (addressEl) {
-      const home: any = document.querySelector(`#${addressEl.id}-option-0`);
+      const home: any = document.getElementById(`${addressEl.id}-option-0`);
       if (home) home.click();
     }
 

@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Container, Button, Box, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { ArrowBack } from "@material-ui/icons";
+import { Container, Button, Box, Typography } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import { ArrowBack } from "@mui/icons-material";
 
 import { AppBar } from "./app_bar";
 
@@ -34,7 +34,12 @@ export const Page = ({ children, size = "md", title, onBack }: PageProps) => {
       <Container component="main" maxWidth={size} className={classes.container}>
         <Box mt={4}>
           {onBack && (
-            <Button onClick={onBack} startIcon={<ArrowBack />} className={classes.backButton}>
+            <Button
+              color="inherit"
+              onClick={onBack}
+              startIcon={<ArrowBack />}
+              className={classes.backButton}
+            >
               Back
             </Button>
           )}

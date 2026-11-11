@@ -1,7 +1,6 @@
 import * as React from "react";
-import { Box, List, Paper } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
-import { makeStyles } from "@material-ui/core/styles";
+import { Box, List, Paper, Skeleton } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
   listItemContent: {
@@ -56,7 +55,7 @@ export function LoadingSkeleton({ variant, delayMs = 200 }: LoadingSkeletonProps
             <Skeleton variant="text" height={48} width="60%" className={classes.titleSkeleton} />
 
             <Box mb={3} display="flex" justifyContent="flex-end">
-              <Skeleton variant="rect" height={42} width={120} />
+              <Skeleton variant="rectangular" height={42} width={120} />
             </Box>
 
             <Skeleton variant="text" height={32} width="40%" className={classes.sectionTitle} />
@@ -73,7 +72,7 @@ export function LoadingSkeleton({ variant, delayMs = 200 }: LoadingSkeletonProps
                     <Skeleton variant="text" width="30%" height={24} />
                     <Box display="flex" alignItems="center">
                       <Skeleton
-                        variant="circle"
+                        variant="circular"
                         width={12}
                         height={12}
                         className={classes.statusIcon}
@@ -99,7 +98,7 @@ export function LoadingSkeleton({ variant, delayMs = 200 }: LoadingSkeletonProps
                     <Skeleton variant="text" width="25%" height={24} />
                     <Box display="flex" alignItems="center">
                       <Skeleton
-                        variant="circle"
+                        variant="circular"
                         width={12}
                         height={12}
                         className={classes.statusIcon}

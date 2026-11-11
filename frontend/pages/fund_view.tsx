@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Box, CircularProgress, TextField, DialogContentText } from "@material-ui/core";
+import { Button, Box, CircularProgress, TextField, DialogContentText } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { Page } from "components/page";
 import { LoadingSkeleton } from "components/loading";
