@@ -13,8 +13,7 @@
     "build:server": "NODE_OPTIONS=--max_old_space_size=2048 tsc -p ./tsconfig.backend.json",
     "build:watch": "concurrently \"npm:build:client:watch\" \"npm:build:server:watch\"",
     "build": "npm run build:client && npm run build:server",
-    "resetdb": "ts-node ./backend/bin/resetdb.ts",
-    "licenses": "license-checker"
+    "resetdb": "ts-node ./backend/bin/resetdb.ts"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.2",
@@ -61,7 +60,6 @@
     "@types/request-ip": "^0.0.37",
     "@vitejs/plugin-react": "^6.1.1",
     "concurrently": "^7.6.0",
-    "license-checker": "^25.0.1",
     "nodemon": "^3.0.1",
     "oxlint": "^1.89.0",
     "prettier": "^2.8.7",
