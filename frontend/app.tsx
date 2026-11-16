@@ -9,37 +9,36 @@ import { SubscriptionPage } from "./pages/subscription";
 import { Login } from "./pages/login";
 import { SettingsPage } from "./pages/settings";
 
-export const App = () => {
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <FundListPage />,
-      errorElement: <Error />,
-      loader: protectRoute,
-    },
-    {
-      path: "/fund/:fundId",
-      element: <FundViewPage />,
-      errorElement: <Error />,
-      loader: protectRoute,
-    },
-    {
-      path: "/fund/:fundId/subscription/:subscriptionId",
-      element: <SubscriptionPage />,
-      errorElement: <Error />,
-      loader: protectRoute,
-    },
-    {
-      path: "/login",
-      element: <Login />,
-      errorElement: <Error />,
-    },
-    {
-      path: "/settings",
-      element: <SettingsPage />,
-      errorElement: <Error />,
-      loader: protectRoute,
-    },
-  ]);
-  return <RouterProvider router={router} />;
-};
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <FundListPage />,
+    errorElement: <Error />,
+    loader: protectRoute,
+  },
+  {
+    path: "/fund/:fundId",
+    element: <FundViewPage />,
+    errorElement: <Error />,
+    loader: protectRoute,
+  },
+  {
+    path: "/fund/:fundId/subscription/:subscriptionId",
+    element: <SubscriptionPage />,
+    errorElement: <Error />,
+    loader: protectRoute,
+  },
+  {
+    path: "/login",
+    element: <Login />,
+    errorElement: <Error />,
+  },
+  {
+    path: "/settings",
+    element: <SettingsPage />,
+    errorElement: <Error />,
+    loader: protectRoute,
+  },
+]);
+
+export const App = () => <RouterProvider router={router} />;
