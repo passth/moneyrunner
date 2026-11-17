@@ -5,6 +5,9 @@
   "prettier": {
     "printWidth": 100
   },
+  "engines": {
+    "node": ">=26"
+  },
   "scripts": {
     "server": "nodemon ./dist/backend/bin/www.js",
     "build:client:watch": "ENV=local NODE_ENV=development vite build --watch --mode development",
@@ -23,7 +26,7 @@
     "@mui/material": "^5.18.0",
     "@mui/styles": "^5.18.0",
     "axios": "^1.20.0",
-    "better-sqlite3": "^12.6.2",
+    "better-sqlite3": "^13.2.0",
     "connect-session-knex": "^3.0.1",
     "cors": "^2.8.5",
     "cross-spawn": "^7.0.6",
@@ -57,7 +60,7 @@
     "@types/jsonwebtoken": "^9.0.1",
     "@types/lusca": "^1.7.1",
     "@types/morgan": "^1.9.4",
-    "@types/node": "^18.15.11",
+    "@types/node": "^24.10.1",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/request-ip": "^0.0.37",

@@ -1,4 +1,4 @@
-FROM node:22-alpine
+FROM node:26-alpine
 RUN apk upgrade --no-cache
 WORKDIR /app
 
@@ -6,9 +6,9 @@ ARG PASSTHROUGH_SDK_URL
 ENV PASSTHROUGH_SDK_URL=$PASSTHROUGH_SDK_URL
 
 COPY package*.json ./
-# Material-UI v4 declares React 16/17 peer deps but runs fine on React 18
-# (legacy render). --legacy-peer-deps lets the strict `npm ci` accept that.
-RUN npm ci --legacy-peer-deps
+# npm runs node-gyp for better-sqlite3 on lockfile installs even though it ships
+# prebuilt binaries, and this image has no Python or compiler.
+RUN npm ci --ignore-scripts
 
 COPY . .
 RUN npm run build:client
