@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import CssBaseline from "@mui/material/CssBaseline";
 
 import "./index.css";
@@ -7,13 +7,11 @@ import "./index.css";
 import { App } from "./app";
 import { CustomThemeProvider } from "./services/providers/theme";
 
-// eslint-disable-next-line react/no-deprecated
-ReactDOM.render(
+createRoot(document.getElementById("root") as HTMLElement).render(
   <CustomThemeProvider>
     <>
       <CssBaseline />
       <App />
     </>
-  </CustomThemeProvider>,
-  document.getElementById("root")
+  </CustomThemeProvider>
 );
